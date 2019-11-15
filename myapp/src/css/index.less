@@ -1,0 +1,39 @@
+@import "common.less";
+
+h5.login-title{
+  &:extend(.word-style);
+  font-size: 14px;
+  font-weight:bold;
+  text-align: center;
+  margin-top: 188px;
+  margin-bottom: 38px;
+}
+
+.login-area{
+  height: 100%;
+  overflow: hidden;
+  position:relative;
+  .input-outside{
+    width: 254px;
+    margin: 0 auto;
+  }
+  .error-tips{
+    margin-bottom: 10px;
+    text-align: center;
+    font-size:11px;
+    font-family:MicrosoftYaHei;
+    color:rgba(208,2,27,1);
+    visibility: hidden;
+  }
+  .go-login{
+    position: absolute;
+    bottom: 34px;
+    font-size:12px;
+    font-family:MicrosoftYaHei;
+    color:rgba(87,134,210,1);
+    line-height:16px;
+    text-align: center;
+    left:50%;
+    transform: translate(-50%, -50%);
+  }
+}

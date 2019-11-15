@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './css/index.less'
 import Router from './Router';
 import * as serviceWorker from './serviceWorker';
 

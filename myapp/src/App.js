@@ -21,7 +21,7 @@ export default class app extends React.Component {
   render() {
     return (
         <div>
-            this is output
+            <p>this is output</p>
             <br />
             <input onClick={()=>this.about()} type="button" value="button" />
         </div>
