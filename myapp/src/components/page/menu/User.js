@@ -11,6 +11,7 @@ const BasicRoute = () => (
             <Route path='/userPage/register' component={Register}/>
             <Route path='/userPage/login' component={Login}/>
             <Route path='/userPage/' component={Index}/>
+            <Route path='/' component={Index}/>
         </Switch>
     </HashRouter>
 );

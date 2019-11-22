@@ -3,6 +3,9 @@
 @radius-common:6px;
 @pc-bg-color:rgba(255,255,255,1);
 @body-bg-color:rgba(240,242,245,1);
+@common-blue-color:#5786D2;
+@common-blue-hover:#34568D;
+@white-hover-color:#ccc;
 
 body{
   background-color: @body-bg-color;
@@ -11,6 +14,10 @@ body{
 
 p,h1,h2,h3,h4,h5,h6{
   &:extend(.no-margin);
+}
+
+input{
+  outline: none;
 }
 
 .border-common{
@@ -71,6 +78,10 @@ p,h1,h2,h3,h4,h5,h6{
     font-weight:bold;
     color:rgba(255,255,255,1);
   }
+  .button-common:hover{
+    background:@common-blue-hover;
+    color:@white-hover-color;
+  }
   .qrcode-area{
     height:44px;
     width: 100%;
@@ -89,6 +100,18 @@ p,h1,h2,h3,h4,h5,h6{
         font-size:12px;
         width: 100px;
       }
+    }
+    .getSms{
+      background-color: transparent;
+      width: 77px;
+      height: 24px;
+      margin-top: 10px;
+      float: right;
+      margin-right: 10px;
+      color: @common-blue-color;
+      font-size: 8px;
+      text-indent: 0;
+      border: none;
     }
     img{
       margin-top: 4.5px;

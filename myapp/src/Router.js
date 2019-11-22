@@ -16,6 +16,7 @@ const BasicRoute = () => (
                 <Route path='/poolPage' component={Pool} />
                 <Route path='/serverPage' component={Server} />
                 <Route path='/userPage' component={User} />
+                <Route path='/' component={User} />
             </Switch>
         </HashRouter>
     </div>
