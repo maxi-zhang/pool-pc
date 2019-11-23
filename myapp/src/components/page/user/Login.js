@@ -1,10 +1,10 @@
 import React from 'react';
-import Tips from "../../common/Tips";
-import Input from "../../common/Input";
+import Tips from "../../common/view/Tips";
+import Input from "../../common/view/Input";
 import {ACTION, OPERATION} from "../../common/Config";
 import {Link} from "react-router-dom";
 import store from "../../../store";
-import {clearReduxData} from "../../common/Model";
+import {clearReduxData} from "../../common/model/UserModel";
 import {checkUserToken} from "../../common/Common";
 
 export default class app extends React.Component {

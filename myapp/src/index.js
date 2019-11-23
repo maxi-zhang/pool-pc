@@ -9,7 +9,7 @@ import './css/index.less'
 import Router from './Router';
 import * as serviceWorker from './serviceWorker';
 
-import Initialize from "./components/common/Initialize"
+import Initialize from "./components/common/view/Initialize"
 
 
 // ReactDOM.render(<Router />, document.getElementById('root'));

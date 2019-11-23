@@ -1,10 +1,10 @@
 import React from 'react';
-import Input from '../../common/Input';
-import Tips from '../../common/Tips';
+import Input from '../../common/view/Input';
+import Tips from '../../common/view/Tips';
 import {Link} from "react-router-dom";
 import {ACTION,OPERATION} from '../../common/Config'
 import store from  '../../../store/index'
-import {clearReduxData} from "../../common/Model";
+import {clearReduxData} from "../../common/model/UserModel";
 import {checkUserToken} from "../../common/Common";
 
 

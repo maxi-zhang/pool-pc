@@ -15,6 +15,7 @@ const defaultState = {
     [ACTION.CURRENT_PATH]:'',
     [ACTION.ADMIN_USER_ID]:'',
     [ACTION.ADMIN_TOKEN]:'',
+    [ACTION.INDEX_MENU]:OPERATION.INDEX_MENU_1,
 
     [OPERATION.REGISTER_MODEL]:{
         [ACTION.MOBILE_NUMBER]:'',
@@ -36,7 +37,11 @@ const defaultState = {
         [ACTION.SET_PASSWORD]:'',
         [ACTION.RESET_PASSWORD]:'',
         [ACTION.SMS_CODE]:''
+    },
+    [OPERATION.POOL_MODEL]:{
+
     }
+
 }
 export default (state = defaultState,action)=>{
     // 值改变时的store处理

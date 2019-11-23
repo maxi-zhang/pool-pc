@@ -1,6 +1,7 @@
 import {ACTION, OPERATION} from "./Config";
 import Axios from "axios";
-import {changeCommonStatus} from "./Model";
+import {changeCommonStatus} from "./model/UserModel";
+import {PATH} from "./Config";
 
 // 检测是否联网以及获取ip方法
 let checkNetworkIp = () =>{
@@ -28,7 +29,9 @@ let checkUserToken = (state,location='/#/') =>{
             changeCommonStatus(data,OPERATION.UPDATE_TOKEN)
         })
     }else{
-        window.location.href = '/#/userPage/login';
+        if(state[ACTION.CURRENT_PATH] !== '/userPage/register'){
+            window.location.href = '/#'+PATH.USER_LOGIN;
+        }
     }
 }
 

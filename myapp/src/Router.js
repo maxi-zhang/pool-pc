@@ -1,7 +1,7 @@
 import React from 'react'
 import {HashRouter, Route, Switch} from 'react-router-dom';
+import {PATH} from "./components/common/Config";
 
-import App from "./App"
 import Bill from "./components/page/menu/Bill"
 import Pool from "./components/page/menu/Pool"
 import Server from "./components/page/menu/Server"
@@ -11,12 +11,11 @@ const BasicRoute = () => (
     <div id="main">
         <HashRouter>
             <Switch>
-                <Route path='/app' component={App}/>
-                <Route path='/billPage' component={Bill} />
-                <Route path='/poolPage' component={Pool} />
-                <Route path='/serverPage' component={Server} />
-                <Route path='/userPage' component={User} />
-                <Route path='/' component={User} />
+                <Route path={PATH.BILL_PAGE} component={Bill} />
+                <Route path={PATH.POOL_PAGE} component={Pool} />
+                <Route path={PATH.SERVER_PAGE} component={Server} />
+                <Route path={PATH.USER_PAGE} component={User} />
+                <Route path={PATH.HOME_INDEX} component={User} />
             </Switch>
         </HashRouter>
     </div>
