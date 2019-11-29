@@ -1,18 +1,16 @@
 import React from 'react';
 import Tips from "../../common/view/Tips";
 import Input from "../../common/view/Input";
-import {ACTION, OPERATION} from "../../common/Config";
-import {Link} from "react-router-dom";
+import {ACTION, OPERATION, PATH} from "../../common/Config";
 import store from "../../../store";
 import {clearReduxData} from "../../common/model/UserModel";
-import {checkUserToken} from "../../common/Common";
+import {SUBMIT_INPUT} from "../../../store/config";
 
 export default class app extends React.Component {
     constructor(props){
         super(props);
-        clearReduxData(props.location.pathname)
         this.state = store.getState();
-        checkUserToken(this.state);
+        clearReduxData();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -24,6 +22,15 @@ export default class app extends React.Component {
         this.setState = (state, callback) => {
             return
         }
+    }
+    handleClick(){
+        let info = []
+        info[ACTION.CURRENT_PATH] = PATH.USER_REGISTER
+        const action = {
+            type:SUBMIT_INPUT,
+            info:info
+        }
+        store.dispatch(action)
     }
     render() {
         let showPicCode = 0;
@@ -56,9 +63,7 @@ export default class app extends React.Component {
                     <Input type={"button"} title={"登录"} name={OPERATION.LOGIN_OPERATION} model={OPERATION.LOGIN_MODEL} />
 
                 </div>
-                <Link to = "/userPage/register">
-                    <p className={"go-login"}>注册账户</p>
-                </Link>
+                <p className={"go-login"} onClick={this.handleClick.bind(this)}>注册账户</p>
             </div>
         );
     }

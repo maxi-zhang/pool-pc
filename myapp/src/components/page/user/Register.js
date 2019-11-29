@@ -1,19 +1,17 @@
 import React from 'react';
 import Input from '../../common/view/Input';
 import Tips from '../../common/view/Tips';
-import {Link} from "react-router-dom";
-import {ACTION,OPERATION} from '../../common/Config'
+import {ACTION, OPERATION, PATH} from '../../common/Config'
 import store from  '../../../store/index'
+import {SUBMIT_INPUT} from "../../../store/config";
 import {clearReduxData} from "../../common/model/UserModel";
-import {checkUserToken} from "../../common/Common";
 
 
 export default class app extends React.Component {
     constructor(props){
         super(props);
-        clearReduxData(props.location.pathname)
         this.state = store.getState();
-        checkUserToken(this.state);
+        clearReduxData();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -56,6 +54,15 @@ class Password extends React.Component {
             return;
         }
     }
+    handleClick(){
+        let info = []
+        info[ACTION.CURRENT_PATH] = PATH.USER_LOGIN
+        const action = {
+            type:SUBMIT_INPUT,
+            info:info
+        }
+        store.dispatch(action)
+    }
     render() {
         let mention = ',即将跳转';
         if(this.state[ACTION.CURRENT_OPERATION] === OPERATION.SUCCESS_REGISTER && this.state[ACTION.JUMP_COUNT] > 0 ){
@@ -77,9 +84,7 @@ class Password extends React.Component {
                     }
 
                 </div>
-                <Link to = "/userPage/login">
-                    <p className={"go-login"}>已有账号？去登录</p>
-                </Link>
+                <p className={"go-login"} onClick={this.handleClick.bind(this)}>已有账号？去登录</p>
             </div>
         );
     }
@@ -102,6 +107,15 @@ class Qrcode extends React.Component {
         this.state = store.getState();
         this.setState(this.state)
     }
+    handleClick(){
+        let info = []
+        info[ACTION.CURRENT_PATH] = PATH.USER_LOGIN
+        const action = {
+            type:SUBMIT_INPUT,
+            info:info
+        }
+        store.dispatch(action)
+    }
     render() {
         return (
             <div className="login-area">
@@ -121,9 +135,7 @@ class Qrcode extends React.Component {
                         <Input type={"button"} title={"验证"} name={OPERATION.CHECK_QRCODE} model={OPERATION.REGISTER_MODEL} />
                     }
                 </div>
-                <Link to = "/userPage/login">
-                    <p className={"go-login"}>已有账号？去登录</p>
-                </Link>
+                <p className={"go-login"} onClick={this.handleClick.bind(this)} >已有账号？去登录</p>
             </div>
         );
     }

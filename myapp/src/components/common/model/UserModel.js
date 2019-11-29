@@ -3,6 +3,10 @@ import store from "../../../store";
 import Axios from "axios";
 import {checkPassword, checkPhoneNumber, checkQrcodeNumber,makeClientCode} from "../Common";
 import {ACTION, OPERATION, PATH} from "../Config";
+import { message } from 'antd';
+
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 // 验证注册信息
 let checkRegisterInfo = (state,name,model) =>{
@@ -195,6 +199,12 @@ let loginAccount = (state,name) => {
                     device_type:OPERATION.DEVICE_TYPE,
                 }
             }).then(function(data){
+                if(data.data.code === 0){
+                    message.config({
+                        top: '50%'
+                    })
+                    message.success('登录成功', 2);
+                }
                 changeCommonStatus(data,OPERATION.LOGIN_SUCCESS)
             })
 
@@ -246,11 +256,18 @@ let changeCommonStatus = (data,name='') =>{
         }else if(name === OPERATION.LOGIN_SUCCESS){
             info[ACTION.ADMIN_TOKEN] = data.data.data.token;
             info[ACTION.ADMIN_USER_ID] = data.data.data['user_id'];
-            window.location.href = '/#/'
         }else if(name === OPERATION.UPDATE_TOKEN){
-            window.location.href = data.data.location
+
         }else{
 
+        }
+    }else{
+        if(name === OPERATION.LOGIN_SUCCESS){
+            info[ACTION.ADMIN_TOKEN] = '';
+            info[ACTION.ADMIN_USER_ID] = '';
+        }else if(name === OPERATION.UPDATE_TOKEN){
+            info[ACTION.ADMIN_TOKEN] = '';
+            info[ACTION.ADMIN_USER_ID] = '';
         }
     }
     const action = {
@@ -278,7 +295,6 @@ let clearRegisterStatus = () =>{
         info:info
     }
     store.dispatch(action);
-    window.location.href = '/#'+PATH.USER_LOGIN
 }
 
 // 验证手机号码操作
@@ -331,9 +347,8 @@ let picQrcodeCheck = (state,model,name) =>{
 }
 
 // 清空redux暂存数据
-let clearReduxData = (location) =>{
+let clearReduxData = () =>{
     let info = {};
-    info[ACTION.CURRENT_PATH] = location;
     info[ACTION.ERROR_CODE] = 0;
     info[ACTION.ERROR_DESCRIPTION] = '';
     info[ACTION.CURRENT_OPERATION] = '';
@@ -374,6 +389,7 @@ let littleDispatch = (info) =>{
     }
     store.dispatch(action);
 }
+
 
 
 export {checkRegisterInfo,changeInputValue,changeUuid,checkSmsCode,timeCountDown,registerAccount,locationToLogin,loginAccount,changeCommonStatus,clearReduxData};

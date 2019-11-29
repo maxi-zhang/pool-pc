@@ -22,4 +22,12 @@
 #### 13-15步操作参照：：[https://www.jianshu.com/p/bfa308164df4](https://www.jianshu.com/p/bfa308164df4)
 
 ### 样式及插件模块安装
-### 16：npm install antd
+#### 16：npm install antd  样式及小插件组件antd
+#### 17：npm install qs 数据格式化组件qs安装
+
+### 安装redux路由组件
+#### npm install react-router-redux
+#### npm install redux-thunk
+
+### 安装websocket组件
+#### npm i reconnecting-websocket

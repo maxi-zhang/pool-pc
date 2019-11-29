@@ -22,6 +22,7 @@ export default class Index extends React.Component {
     showMenu = (menu) =>{
         changeMenuStatus(ACTION.INDEX_MENU,menu)
     }
+
     render() {
         let menu1 = "menu-index";
         let menu2 = "serve-index";
@@ -42,14 +43,17 @@ export default class Index extends React.Component {
                     <div className={"menu-border"}></div>
                     <p>首页</p>
                 </div>
+
                 <div className={menu2} onClick={this.showMenu.bind(this,OPERATION.INDEX_MENU_2)}>
                     <div className={"menu-border"}></div>
                     <p>服务台</p>
                 </div>
+
                 <div className={menu3} onClick={this.showMenu.bind(this,OPERATION.INDEX_MENU_3)}>
                     <div className={"menu-border"}></div>
                     <p>矿场</p>
                 </div>
+
                 <div className={menu4} onClick={this.showMenu.bind(this,OPERATION.INDEX_MENU_4)}>
                     <div className={"menu-border"}></div>
                     <p>我的</p>

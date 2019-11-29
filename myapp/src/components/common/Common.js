@@ -15,7 +15,7 @@ let checkNetworkIp = () =>{
 }
 
 // 检测用户token是否合法方法
-let checkUserToken = (state,location='/#/') =>{
+let checkUserToken = (state) =>{
     if(state[ACTION.ADMIN_USER_ID] && state[ACTION.ADMIN_TOKEN]){
         Axios({
             method:"post",
@@ -25,13 +25,8 @@ let checkUserToken = (state,location='/#/') =>{
                 token:state[ACTION.ADMIN_TOKEN],
             }
         }).then(function(data){
-            data.data.location = location
             changeCommonStatus(data,OPERATION.UPDATE_TOKEN)
         })
-    }else{
-        if(state[ACTION.CURRENT_PATH] !== '/userPage/register'){
-            window.location.href = '/#'+PATH.USER_LOGIN;
-        }
     }
 }
 
@@ -88,6 +83,7 @@ let checkPassword = (password,newpassword) => {
     }
     return info;
 }
+
 
 
 export {checkPhoneNumber,checkQrcodeNumber,makeUuid,checkPassword,makeClientCode,checkNetworkIp,checkUserToken};

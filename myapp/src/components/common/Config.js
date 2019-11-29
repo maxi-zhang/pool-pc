@@ -1,3 +1,4 @@
+import React from "react";
 
 const HOST = {
     'USER_HOST': 'https://devpuser1.arsyun.com/',
@@ -17,6 +18,8 @@ const ACTION = {
     'CLIENT_IP':'client_ip',
     'UUID': 'uuid',//产生图片验证码所用uuid
     'INDEX_MENU':'index_menu',//首页的目录位置
+    'SECONDARY_MENU':'secondary_menu',//次级目录
+    'POOL_DATA':'pool_data',
 
     // 'CHECK_PIC_QRCODE': 'check_pic_qrcode',
     'MOBILE_NUMBER':'mobile_number',
@@ -76,6 +79,9 @@ const OPERATION = {
     'POWER_MACHINE':'power_machine',//矿机算力
     'SCREENING_CONDITIONS':'screening_conditions',//筛选条件
     'ADVANCE_SEARCH':'advance_search',//高级搜索
+    //矿场模块操作常量
+    'UPDATE_POOL_DATA':'update_pool_data',//更新矿场信息
+
 
     // 通用操作常量配置（确定操作）
     'NETWORK_CHECK':'network_check', //网络状态检查
@@ -89,6 +95,22 @@ const OPERATION = {
     'INDEX_MENU_4':'user',
 
 
+    // 次级目录second
+    // 我的中的次级目录
+    'SECOND_MENU_1':'wallet_set', //钱包设置
+    'SECOND_MENU_2':'about_us',   //关于我们
+    // 服务台中的次级目录
+    'SECOND_MENU_3':'staff_operation',  //员工管理
+    'SECOND_MENU_4':'my_device',   //我的设备
+    'SECOND_MENU_5':'my_entrust',  //我的委托
+    'SECOND_MENU_6':'entrust_to_me',  //委托给我
+    'SECOND_MENU_7':'virtual_node',//虚拟节点
+    'SECOND_MENU_8':'node_income',//节点收益
+    'SECOND_MENU_9':'warning_report', //监控报警
+    'SECOND_MENU_10':'work_order', //工单
+    //创建矿场中的次级目录
+    'SECOND_MENU_11':'create_pool',//创建矿场
+
     // 以下是各种常量配置
     'CLIENT_NAME':'pc_explorer_client',
     'CLIENT_CODE':'pc_explorer_code',
@@ -97,16 +119,17 @@ const OPERATION = {
 }
 // 路由模块配置
 const PATH = {
-    'HOME_INDEX':'/', //系统首页
+    'HOME_INDEX':'/#/', //系统首页
     'SERVER_PAGE':'/serverPage',//服务台
     'POOL_PAGE' : '/poolPage',//矿场
     'USER_PAGE' : '/userPage',//用户模块
     'BILL_PAGE':'/billPage',//刷单模块
 
-    'USER_REGISTER':'/userPage/register',
-    'USER_LOGIN':'/userPage/login',
+    'USER_REGISTER':'register',
+    'USER_LOGIN':'login',
+    'USER_SET':'userSet', //用户设置页
 
-
+    'SERVER_INDEX':'/serverPage/index', //服务台首页
 
 }
 

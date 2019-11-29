@@ -43,7 +43,7 @@ export default class Index extends React.Component {
                     <img src={UserIconImg} />
                     <h5>George</h5>
                     <h6>
-                        <Dropdown overlay={menu} overlayStyle={{color:'red'}}  >
+                        <Dropdown overlayClassName={"top-banner"}  overlay={menu} overlayStyle={{color:'red'}}  >
                             <a className="ant-dropdown-link" href="#">
                                 用户模式 <Icon type="caret-down" />
                             </a>

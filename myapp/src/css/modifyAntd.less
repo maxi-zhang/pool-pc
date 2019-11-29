@@ -1,24 +1,136 @@
 @common-blue-color:#5786D2;
 
-.ant-dropdown-menu{
-    background-color: #000000;
+.ant-message-notice-content{
+    padding: 24px 65px;
+    background:rgba(0,11,32,1);
+    border-radius:6px;
     opacity:0.79;
+    font-size:16px;
+    font-family:PingFangTC-Regular,PingFangTC;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    line-height:22px;
 }
-.ant-dropdown-menu-item{
-    padding: 14px 20px;
+
+.top-banner{
+    .ant-dropdown-menu{
+        background-color: #000000;
+        opacity:0.79;
+    }
+    .ant-dropdown-menu-item{
+        padding: 14px 20px;
+    }
+    .ant-dropdown-menu-item > a{
+        color: white;
+        font-size:12px;
+        font-family:MicrosoftYaHei-Bold,MicrosoftYaHei;
+        font-weight:bold;
+        line-height:16px;
+        text-align: center;
+    }
+    .ant-dropdown-menu-item > a:hover{
+        color:#2267D2;
+    }
+    .ant-dropdown-menu-item:hover{
+        background-color: #000000;
+        opacity:0.79;
+    }
 }
-.ant-dropdown-menu-item > a{
-    color: white;
-    font-size:12px;
-    font-family:MicrosoftYaHei-Bold,MicrosoftYaHei;
-    font-weight:bold;
-    line-height:16px;
-    text-align: center;
+
+.more-operation{
+    .ant-dropdown-menu{
+        background-color: white;
+        top:6px;
+    }
+    .ant-dropdown-menu-item{
+        padding: 10px 20px;
+    }
+    .ant-dropdown-menu-item > a{
+        font-size:11px;
+        color:rgba(46,46,46,1);
+        line-height:15px;
+        text-align: center;
+    }
+    .ant-dropdown-menu-item:hover > a{
+        color:rgba(255,255,255,1);
+    }
+    .ant-dropdown-menu-item:hover{
+        background:rgba(87,134,210,1);
+        color: white;
+    }
 }
-.ant-dropdown-menu-item > a:hover{
-    color:#2267D2;
+
+.machine-status{
+    .ant-dropdown-menu{
+        background-color: white;
+        top:6px;
+        min-width: 100px;
+    }
+    .ant-dropdown-menu-item{
+        padding: 10px 20px;
+    }
+    .ant-dropdown-menu-item > a{
+        font-size:11px;
+        color:rgba(46,46,46,1);
+        line-height:15px;
+        text-align: center;
+    }
+    .ant-dropdown-menu-item:hover > a{
+        color:rgba(255,255,255,1) !important;
+    }
+    .ant-dropdown-menu-item:hover{
+        background:rgba(87,134,210,1);
+        color: white;
+    }
+    .on{
+         color: #00B362 !important;
+    }
+    .off{
+        color: #CC0000 !important;
+    }
 }
-.ant-dropdown-menu-item:hover{
-    background-color: #000000;
-    opacity:0.79;
+.warning-rate{
+    .ant-dropdown-menu{
+        background-color: white;
+        top:6px;
+        min-width: 100px;
+    }
+    .ant-dropdown-menu-item{
+        padding: 10px 20px;
+    }
+    .ant-dropdown-menu-item > a{
+        font-size:11px;
+        color:rgba(46,46,46,1);
+        line-height:15px;
+        text-align: center;
+    }
+    .ant-dropdown-menu-item:hover > a{
+        color:rgba(255,255,255,1) !important;
+    }
+    .ant-dropdown-menu-item:hover{
+        background:rgba(87,134,210,1);
+        color: white;
+    }
+    .on{
+        color: #00B362 !important;
+    }
+    .off{
+        color: #CC0000 !important;
+    }
+}
+
+.ant-alert.ant-alert-no-icon{
+    padding: 6px 15px;
+    .ant-alert-message{
+        font-size:10px;
+        font-family:MicrosoftYaHei;
+        color:rgba(46,46,46,1);
+        line-height:1;
+    }
+    .ant-alert-close-icon{
+        top: 1px;
+    }
+}
+.ant-alert{
+    line-height: 1;
 }

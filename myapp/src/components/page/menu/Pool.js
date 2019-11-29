@@ -1,14 +1,26 @@
 import React from 'react';
-import {HashRouter, Route, Switch} from 'react-router-dom';
+import store from "../../../store";
+import PoolIndex from "../pool/Index"
 
-import Index from "../bill/Index"
-
-const BasicRoute = () => (
-    <HashRouter>
-        <Switch>
-            <Route path='/billPage/' component={Index}/>
-        </Switch>
-    </HashRouter>
-);
-
-export default BasicRoute;
+export default class app extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = store.getState();
+        this.storeChange = this.storeChange.bind(this);
+        store.subscribe(this.storeChange);
+    }
+    storeChange(){
+        this.state = store.getState();
+        this.setState(this.state);
+    }
+    componentWillUnmount() {
+        this.setState = (state, callback) => {
+            return
+        }
+    }
+    render() {
+        return (
+            <PoolIndex />
+        );
+    }
+}

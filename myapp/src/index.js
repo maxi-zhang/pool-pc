@@ -6,19 +6,20 @@ import {persistor} from "./store/index";
 import {PersistGate} from 'redux-persist/lib/integration/react'
 
 import './css/index.less'
-import Router from './Router';
+// import Router from './Router';
+import Index from './components/Index'
 import * as serviceWorker from './serviceWorker';
 
 import Initialize from "./components/common/view/Initialize"
 
 
 // ReactDOM.render(<Router />, document.getElementById('root'));
-ReactDOM.render(<Provider store={store}>
+ReactDOM.render(<div id={"main"}><Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
         <Initialize />
-        <Router />
+        <Index />
     </PersistGate>
-</Provider>, document.getElementById('root'));
+</Provider></div>, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change
