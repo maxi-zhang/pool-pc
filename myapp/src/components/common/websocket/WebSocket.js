@@ -1,12 +1,12 @@
 import ReconnectingWebSocket from "reconnecting-websocket";
 import store from "../../../store/index"
-import {ACTION} from "../Config";
+import {ACTION, OPERATION} from "../Config";
 
 let condition = 0;
 let openWebSocket = () =>{
     let ws = new ReconnectingWebSocket("ws://192.168.1.212:8088/ws");
     ws.onopen = function(){
-        let msg = '{"from":"html","act":"start","act_code":"start","user_id":'+store.getState()[ACTION.ADMIN_USER_ID]+',"token":"'+store.getState()[ACTION.ADMIN_TOKEN]+'"}';
+        let msg = '{"from":"html","act":"start","act_code":"start","user_id":'+store.getState()[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID]+',"token":"'+store.getState()[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN]+'"}';
         console.log(msg)
         ws.send(msg);
         setInterval(function () {

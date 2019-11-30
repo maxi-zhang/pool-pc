@@ -1,7 +1,7 @@
 import React from 'react';
 import store from "../../../store";
 import {checkNetworkIp, checkUserToken} from "../Common";
-import {ACTION} from "../Config";
+import {ACTION, OPERATION} from "../Config";
 import { openWebSocket } from "../../common/websocket/WebSocket"
 
 export default class app extends React.Component {
@@ -9,10 +9,10 @@ export default class app extends React.Component {
         super(props);
         this.state = store.getState();
         checkNetworkIp();
-        if(this.state[ACTION.ADMIN_TOKEN] && this.state[ACTION.ADMIN_USER_ID]){
+        if(this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] && this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID]){
             checkUserToken(this.state);
+            // openWebSocket();
         }
-        openWebSocket();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -27,7 +27,7 @@ export default class app extends React.Component {
     }
     render() {
         return(
-            <div></div>
+            <React.Fragment></React.Fragment>
         )
     }
 

@@ -2,5 +2,6 @@
 const CHANGE_INPUT = Symbol();
 const CHANGE_UUID = Symbol();
 const SUBMIT_INPUT = Symbol();
+const CHANGE_MENU = Symbol();
 
-export {CHANGE_INPUT ,CHANGE_UUID,SUBMIT_INPUT};
+export {CHANGE_INPUT ,CHANGE_UUID,SUBMIT_INPUT,CHANGE_MENU};

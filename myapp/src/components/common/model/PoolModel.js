@@ -1,4 +1,4 @@
-import {SUBMIT_INPUT} from "../../../store/config";
+import {SUBMIT_INPUT,CHANGE_MENU} from "../../../store/config";
 import store from "../../../store";
 import Axios from "axios";
 import {ACTION, OPERATION} from "../Config";
@@ -6,15 +6,13 @@ import qs from 'qs';
 
 // 更该目录信息
 let changeMenuStatus = (menu, value,state) =>{
-    let info = [];
-    if(menu === ACTION.SECONDARY_MENU){
-        info[menu] = {[state[ACTION.INDEX_MENU]]:value};
-        info[menu] = {...state[ACTION.SECONDARY_MENU],...info[menu]}
-    }else{
-        info[menu] = value;
-    }
+    let info = {};
+    info['menu'] = menu;
+    info['value'] = value;
+    info['current'] = state[OPERATION.MENU_INFO][ACTION.INDEX_MENU];
+
     const action = {
-        type:SUBMIT_INPUT,
+        type:CHANGE_MENU,
         info:info
     }
     store.dispatch(action)
@@ -25,8 +23,8 @@ let getUserPool = (state) =>{
     Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
     Axios.post('/pool/pool/list/', qs.stringify(
         {
-            'user_id': state[ACTION.ADMIN_USER_ID],
-            'token': state[ACTION.ADMIN_TOKEN]}
+            'user_id': state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'token': state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN]}
             )
     ).then(function(data){
         changeCommonStatus(data,OPERATION.UPDATE_POOL_DATA);
@@ -34,13 +32,14 @@ let getUserPool = (state) =>{
 }
 
 let changeCommonStatus = (data,name='') =>{
-    let info = [];
-    info[ACTION.ERROR_CODE] = data.data.code;
-    info[ACTION.ERROR_DESCRIPTION] = data.data.description;
-
+    let info = {};
+    info[OPERATION.ERROR_INFO] = {};
+    info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = data.data.code;
+    info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = data.data.description;
     if(data.data.code === 0){
         if(name === OPERATION.UPDATE_POOL_DATA){
-            info[ACTION.POOL_DATA] = data.data.data;
+            info[OPERATION.POOL_INFO] = {};
+            info[OPERATION.POOL_INFO][ACTION.POOL_DATA] = data.data.data;
         }
     }
     const action = {

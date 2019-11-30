@@ -26,7 +26,7 @@ export default class app extends React.Component {
     }
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <TopBanner />
                 <MainMenu />
                 <SecondaryMenu />
@@ -34,9 +34,9 @@ export default class app extends React.Component {
                     <div>
                         <CreatePoolStepTwo />
                         <CreatePoolStepOne />
-                    </div> :<div></div>
+                    </div> :<React.Fragment></React.Fragment>
                 }
-            </div>
+            </React.Fragment>
         );
     }
 }

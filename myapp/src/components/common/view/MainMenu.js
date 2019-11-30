@@ -20,7 +20,7 @@ export default class Index extends React.Component {
         }
     }
     showMenu = (menu) =>{
-        changeMenuStatus(ACTION.INDEX_MENU,menu)
+        changeMenuStatus(ACTION.INDEX_MENU,menu,this.state)
     }
 
     render() {
@@ -28,13 +28,13 @@ export default class Index extends React.Component {
         let menu2 = "serve-index";
         let menu3 = "pool-index";
         let menu4 = "user-index";
-        if(this.state[ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_1){
+        if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_1){
             menu1 = menu1 + "-on";
-        }else if(this.state[ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_2){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_2){
             menu2 = menu2 + "-on";
-        }else if(this.state[ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_3){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_3){
             menu3 = menu3 + "-on";
-        }else if(this.state[ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_4){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] == OPERATION.INDEX_MENU_4){
             menu4 = menu4 + "-on";
         }
         return (

@@ -23,19 +23,19 @@ export default class app extends React.Component {
         }
     }
     render() {
-        if(this.state[ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_1){
+        if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_1){
             return (
                 <UserIndex />
             );
-        }else if(this.state[ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_2){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_2){
             return (
                 <ServerMenu />
             );
-        }else if(this.state[ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_3){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_3){
             return (
                 <PoolMenu />
             );
-        }else if(this.state[ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_4){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_4){
             return (
                 <UserMenu />
             );

@@ -77,7 +77,7 @@ export default class InputText extends  React.Component{
                         <div>
                             <input maxLength="4" name={this.props.name} type={"text"} value={this.state[this.props.name]} onChange={this.handleChange.bind(this)} />
                         </div>
-                        <img src={HOST.USER_HOST+"/basic/captcha?uuid="+ this.state.uuid} onClick={this.changePicQrcode.bind(this)} />
+                        <img src={HOST.USER_HOST+"basic/captcha?uuid="+ this.state[OPERATION.SYSTEM_INFO].uuid} onClick={this.changePicQrcode.bind(this)} />
                     </div>
                 </div>
             );
@@ -89,9 +89,9 @@ export default class InputText extends  React.Component{
                         <div>
                             <input style={{width:"160px"}} maxLength="6" name={this.props.name} type={"text"} value={this.state[this.props.name]} onChange={this.handleChange.bind(this)} />
                         </div>
-                        {this.state[ACTION.SMS_LEFT_TIME] === 0 ?
+                        {this.state[OPERATION.SYSTEM_INFO][ACTION.SMS_LEFT_TIME] === 0 ?
                             <input value={'发送验证码'} className={"getSms"} type={"button"} onClick={this.sendSmsCode.bind(this)} />:
-                            <input value={this.state[ACTION.SMS_LEFT_TIME] + "秒重发"} className={"getSms"} type={"button"} />
+                            <input value={this.state[OPERATION.SYSTEM_INFO][ACTION.SMS_LEFT_TIME] + "秒重发"} className={"getSms"} type={"button"} />
                         }
                     </div>
                 </div>

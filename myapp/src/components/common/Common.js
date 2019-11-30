@@ -16,13 +16,13 @@ let checkNetworkIp = () =>{
 
 // 检测用户token是否合法方法
 let checkUserToken = (state) =>{
-    if(state[ACTION.ADMIN_USER_ID] && state[ACTION.ADMIN_TOKEN]){
+    if(state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID] && state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN]){
         Axios({
             method:"post",
             url:"/user/checkToken",
             data:{
-                user_id:state[ACTION.ADMIN_USER_ID],
-                token:state[ACTION.ADMIN_TOKEN],
+                user_id:state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                token:state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             }
         }).then(function(data){
             changeCommonStatus(data,OPERATION.UPDATE_TOKEN)
@@ -47,7 +47,7 @@ let checkQrcodeNumber = (number) =>{
 
 //生成client_code的方法
 let makeClientCode = (state) =>{
-    return state[ACTION.CLIENT_IP]+state[OPERATION.LOGIN_MODEL][ACTION.MOBILE_NUMBER];
+    return state[OPERATION.SYSTEM_INFO][ACTION.CLIENT_IP]+state[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL][ACTION.MOBILE_NUMBER];
 }
 
 // 检测密码方法

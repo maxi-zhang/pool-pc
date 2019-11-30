@@ -8,16 +8,14 @@ import Server from "./components/page/menu/Server"
 import User from "./components/page/menu/User"
 
 const BasicRoute = () => (
-    <div id="main">
-        <HashRouter>
-            <Switch>
-                <Route path={PATH.BILL_PAGE} component={Bill} />
-                <Route path={PATH.POOL_PAGE} component={Pool} />
-                <Route path={PATH.SERVER_PAGE} component={Server} />
-                <Route path={PATH.USER_PAGE} component={User} />
-                <Route path='/' component={User} />
-            </Switch>
-        </HashRouter>
-    </div>
+    <HashRouter>
+        <Switch>
+            <Route path={PATH.BILL_PAGE} component={Bill} />
+            <Route path={PATH.POOL_PAGE} component={Pool} />
+            <Route path={PATH.SERVER_PAGE} component={Server} />
+            <Route path={PATH.USER_PAGE} component={User} />
+            <Route path='/' component={User} />
+        </Switch>
+    </HashRouter>
 );
 export default BasicRoute;

@@ -23,11 +23,10 @@ export default class app extends React.Component {
         }
     }
     render() {
-
         return (
             <div className={"inner-common"}>
                 {0?
-                    <div>
+                    <React.Fragment>
                         <PoolInsideTop />
                         <RentTotal />
                         <PowerTotal />
@@ -39,32 +38,30 @@ export default class app extends React.Component {
                         <AddDeleteMiner />
                         <DeleteGroup />
                         <PoolSet />
-                    </div>:<div></div>
+                        <AdvanceSearch />
+                    </React.Fragment>:<React.Fragment></React.Fragment>
                 }
-
-
-
                 {0?
-                    <div>
+                    <React.Fragment>
                         <PoolInsideTop />
                         <ProfitPanel />
                         <IncomeDetail />
                         <AdvanceSearch />
-                    </div> :
-                    <div></div>
+                    </React.Fragment> :
+                    <React.Fragment></React.Fragment>
                 }
                 {0?
-                    <div>
+                    <React.Fragment>
                         <PoolInsideTop />
                         <RentTotal />
                         <RentDetail />
                         <ApplyOrderList />
-                    </div> :
-                    <div></div>
+                    </React.Fragment> :
+                    <React.Fragment></React.Fragment>
                 }
                 {0?
                     <AddDeleteMiner/> :
-                    <div></div>
+                    <React.Fragment></React.Fragment>
                 }
                 <br/><br/><br/><br/><br/>
             </div>
@@ -244,11 +241,13 @@ class RentTotal extends React.Component {
     }
     render() {
         return (
-            <div className={"total-account"}>
-                <div className={"tip-icon icon1"}></div>
-                <p className={"tip1"}>总节点：10</p>
-                <div className={"tip-icon icon2"}></div>
-                <p className={"tip2"}>剩余节点：1</p>
+            <div className={"border"}>
+                <div className={"total-account"}>
+                    <div className={"tip-icon icon1"}></div>
+                    <p className={"tip1"}>总节点：10</p>
+                    <div className={"tip-icon icon2"}></div>
+                    <p className={"tip2"}>剩余节点：1</p>
+                </div>
             </div>
         );
     }
@@ -272,13 +271,15 @@ class PowerTotal extends React.Component{
     }
     render() {
         return (
-            <div className={"pool-power-total"}>
-                <div className={"tip-icon icon1"}></div>
-                <p className={"tip1"}>当前算力（点击查看曲线图）</p>
-                <p className={"text1"}>10000GB</p>
-                <div className={"tip-icon icon2"}></div>
-                <p className={"tip2"}>24小时离线率</p>
-                <p className={"text2"}>53%</p>
+            <div className={"border"}>
+                <div className={"pool-power-total"}>
+                    <div className={"tip-icon icon1"}></div>
+                    <p className={"tip1"}>当前算力（点击查看曲线图）</p>
+                    <p className={"text1"}>10000GB</p>
+                    <div className={"tip-icon icon2"}></div>
+                    <p className={"tip2"}>24小时离线率</p>
+                    <p className={"text2"}>53%</p>
+                </div>
             </div>
         );
     }
@@ -302,7 +303,7 @@ class GroupList extends React.Component{
     }
     render() {
         return (
-            <div>
+            <div className={"border"}>
                 <div className={"total-machine"}>
                     <h5>矿机数：12/20</h5>
                     <Icon style={{color:"#7C8B96",fontSize:"20px",position:"absolute",left:"602px"}} type="plus-circle" />
@@ -347,13 +348,13 @@ class IncomeTotal extends React.Component{
     }
     render() {
         return(
-            <div>
+            <div className={"border"}>
                 <div className={"income-search-area"}>
                     <div className={"search-area"}><Icon type="search" style={{position:"absolute",left:'531px',fontSize:'16px',color:'#2155AA'}} /></div>
                     <div className={"screen-area"}>筛选</div>
                 </div>
                 <div className={"total-income-area"}>
-                        <div className={"tip-icon icon1"}></div>
+                    <div className={"tip-icon icon1"}></div>
                     <p className={"tip1"}>12笔收益</p>
                     <p className={"tip2"}>收入12.200FIL</p>
                 </div>
@@ -380,7 +381,7 @@ class IncomeDetail extends React.Component{
     }
     render() {
         return(
-            <div>
+            <div className={"border"}>
                 <div className={"income-detail-title"}>
                     <p className={"tip1"}>矿工名</p>
                     <p className={"tip2"}>地址</p>
@@ -479,7 +480,7 @@ class MinerListDetail extends React.Component{
     }
     render() {
         return(
-            <div>
+            <div className={"border"}>
                 <div className={"machine-list-title"}>
                     <p className={"tip1"}>矿机名</p>
                     <p className={"tip2"}>开关</p>
@@ -637,7 +638,7 @@ class RentDetail extends React.Component{
     }
     render() {
         return(
-            <div>
+            <div className={"border"}>
                 <div className={"rent-list-title"}>
                     <p className={"tip1"}>ID</p>
                     <p className={"tip2"}>用户名</p>
@@ -837,17 +838,19 @@ class ProfitPanel extends React.Component{
     }
     render() {
         return(
-            <div className={"profit-screen-panel"}>
-                <div className={"icon1"}></div>
-                <p className={"tip1"}>总收益：12.200FIL</p>
-                <div className={"icon2"}></div>
-                <p className={"tip2"}>选择某天的收益</p>
-                <div className={"date"}>
-                    {/*<p>2019-10-12</p>*/}
-                    <DatePicker />
-                    {/*<Icon style={{position:"absolute",left:"70px",top:'1px',color:"rgba(87,134,210,1)"}} type="caret-down" />*/}
+            <div className={"border"}>
+                <div className={"profit-screen-panel"}>
+                    <div className={"icon1"}></div>
+                    <p className={"tip1"}>总收益：12.200FIL</p>
+                    <div className={"icon2"}></div>
+                    <p className={"tip2"}>选择某天的收益</p>
+                    <div className={"date"}>
+                        {/*<p>2019-10-12</p>*/}
+                        <DatePicker />
+                        {/*<Icon style={{position:"absolute",left:"70px",top:'1px',color:"rgba(87,134,210,1)"}} type="caret-down" />*/}
+                    </div>
+                    <button><Icon type="search" />&nbsp;&nbsp;查收益</button>
                 </div>
-                <button><Icon type="search" />&nbsp;&nbsp;查收益</button>
             </div>
         )
     }

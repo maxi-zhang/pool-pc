@@ -1,7 +1,7 @@
 import React from "react";
 
 const HOST = {
-    'USER_HOST': 'https://devpuser1.arsyun.com/',
+    'USER_HOST': 'http://devpuser1.arsyun.com/',
 };
 
 // store 存储的键名
@@ -9,7 +9,6 @@ const ACTION = {
     // 用户模块的键名
     'CURRENT_PATH':'current_path',//当前的路径
     'CURRENT_OPERATION':'current_operation',//当前操作的模块
-    'CURRENT_STEP':'current_step',//当前操作步骤ID
     'LOGIN_STATUS':'login_status',//当前的登录状态
     'ADMIN_USER_ID':'admin_user_id',
     'ADMIN_TOKEN':'admin_token',
@@ -20,44 +19,41 @@ const ACTION = {
     'INDEX_MENU':'index_menu',//首页的目录位置
     'SECONDARY_MENU':'secondary_menu',//次级目录
     'POOL_DATA':'pool_data',
-
     // 'CHECK_PIC_QRCODE': 'check_pic_qrcode',
     'MOBILE_NUMBER':'mobile_number',
     'PICTURE_QRCODE':'picture_qrcode',
     'SMS_CODE':'sms_code',
     'SET_PASSWORD':'set_password',
     'RESET_PASSWORD':'reset_password',
-
     'SMS_LEFT_TIME':'sms_left_time',//短信验证码倒计时时间
     'SMS_START_COUNT':'sms_start_count',//短信验证码及时已经开始状态防止重复开启
     'JUMP_COUNT':'jump_count',//跳转倒计时
-
     // 矿场模块的键名
     'CURRENT_POOL':'current_pool',//当前矿场的矿场ID
     'SELECT_MACHINE':'select_machine',//选择的矿机列表[]
     'OPERATION_MACHINE':'operation_machine',//当前操作的矿机ID
-
     //2：筛选条件
     'START_TIME':'start_time', //搜索开始时间
     'END_TIME':'end_time',//搜索结束时间
     'SEARCH_KEYWORD':'search_keyword',//搜索关键词
     'ORDER_CHOOSE':'order_choose',//根据什么排序
     'ASC_OR_DESC':'asc_or_desc',//正序OR倒叙
-
-
 }
 
 // 操作常量的命名
 const OPERATION = {
+    'USER_INFO':'user_info',
+    'SYSTEM_INFO':'system_info',
+    'ERROR_INFO':'error_info',
+    'MENU_INFO':'menu_info',
+    'PATH_INFO':'path_info',
+    'POOL_INFO':'pool_info',
     // redux 结构大模块键名
     'REGISTER_MODEL':'register_model',
     'LOGIN_MODEL':'login_model',
     'FIND_PASSWORD_MODEL':'find_password_model',
-    'POOL_MODEL':'pool_model',
-
     // 用户模块，页面定义宏（确定位置）
     'SET_PASSWORD':'set_password',
-
     // 用户模块 相关当前操作（点击后操作定义，确定操作）
     'REGISTER_NOW':'register_now',//立即注册
     'CHECK_QRCODE':'check_qrcode',//检查图片验证码
@@ -65,7 +61,6 @@ const OPERATION = {
     'SUCCESS_REGISTER':'success_register',//成功注册
     'LOGIN_OPERATION':'login_operation',//登录操作
     'LOGIN_SUCCESS':'login_success',//登录成功
-
     // 'SMS_LEFT_TIME':'sms_left_time',
 
     // 矿场模块操作

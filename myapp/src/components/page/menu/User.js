@@ -19,9 +19,9 @@ export default class app extends React.Component {
         }
     }
     render() {
-        if(this.state[ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_4] === OPERATION.SECOND_MENU_1){
+        if(this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_4] === OPERATION.SECOND_MENU_1){
             return (<div>钱包设置</div>);
-        }else if(this.state[ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_4] === OPERATION.SECOND_MENU_2){
+        }else if(this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_4] === OPERATION.SECOND_MENU_2){
             return (<div>关于我们</div>);
         }else{
             return (<div>钱包设置</div>);

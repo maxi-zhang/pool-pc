@@ -14,12 +14,12 @@ import Initialize from "./components/common/view/Initialize"
 
 
 // ReactDOM.render(<Router />, document.getElementById('root'));
-ReactDOM.render(<div id={"main"}><Provider store={store}>
+ReactDOM.render(<Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
         <Initialize />
         <Index />
     </PersistGate>
-</Provider></div>, document.getElementById('root'));
+</Provider>, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change

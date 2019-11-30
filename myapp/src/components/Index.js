@@ -1,7 +1,7 @@
 import React from 'react';
 import store from "../store";
 
-import {ACTION, PATH} from "./common/Config";
+import {ACTION, OPERATION, PATH} from "./common/Config";
 import FrameCommon from './common/view/FrameCommon'
 import InsideCommon from './common/view/InsideCommon'
 import {checkUserToken} from "./common/Common";
@@ -27,15 +27,15 @@ export default class app extends React.Component {
         }
     }
     render() {
-        if(this.state[ACTION.ADMIN_TOKEN] && this.state[ACTION.ADMIN_USER_ID]){
+        if(this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] && this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID]){
             return (
-                <div>
+                <div id={"menu-common"}>
                     <FrameCommon />
                     <InsideCommon />
                 </div>
             );
         }else{
-            if(this.state[ACTION.CURRENT_PATH] === PATH.USER_REGISTER){
+            if(this.state[OPERATION.PATH_INFO][ACTION.CURRENT_PATH] === PATH.USER_REGISTER){
                 return (
                     <Register />
                 )
