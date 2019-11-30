@@ -1,12 +1,9 @@
-import {SUBMIT_INPUT, CHANGE_INPUT, CHANGE_UUID} from "../../../store/config";
+import {SUBMIT_INPUT, CHANGE_INPUT, CHANGE_UUID, CHANGE_STORE} from "../../../store/config";
 import store from "../../../store";
 import Axios from "axios";
 import {checkPassword, checkPhoneNumber, checkQrcodeNumber,makeClientCode} from "../Common";
 import {ACTION, OPERATION, PATH} from "../Config";
 import { message } from 'antd';
-
-import { createBrowserHistory } from 'history';
-const history = createBrowserHistory();
 
 // 验证注册信息
 let checkRegisterInfo = (state,name,model) =>{
@@ -35,13 +32,17 @@ let checkSmsCode = (state,name)=>{
 
 // 注册账号
 let registerAccount = (state,name) =>{
-    let info = checkPassword(state[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.SET_PASSWORD],state[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.RESET_PASSWORD]);
-    if(info[ACTION.ERROR_CODE] !== 0){
+    let info = state;
+    let error = checkPassword(state[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.SET_PASSWORD],state[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.RESET_PASSWORD]);
+    if(error[ACTION.ERROR_CODE] !== 0){
+        info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = error[ACTION.ERROR_CODE];
+        info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = error[ACTION.ERROR_DESCRIPTION];
         const action = {
-            type:SUBMIT_INPUT,
+            type:CHANGE_STORE,
             info:info
         }
         store.dispatch(action)
+        return;
     }
     Axios({
         method:"post",
@@ -144,8 +145,7 @@ let loginAccount = (state,name) => {
         return;
     }
     if(state[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL][ACTION.SET_PASSWORD].length < 6){
-        let info = [];
-        info[OPERATION.ERROR_INFO] ={};
+        let info = store.getState();
         info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
         info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '密码长度不能小于6位';
         littleDispatch(info);
@@ -166,16 +166,14 @@ let loginAccount = (state,name) => {
         }else{
             if(state[OPERATION.USER_INFO][ACTION.LOGIN_STATUS] === 3){
                 if(checkQrcodeNumber(state[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL][ACTION.PICTURE_QRCODE])){
-                    let info = [];
-                    info[OPERATION.ERROR_INFO] ={};
+                    let info = store.getState();
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '图片验证码错误';
                     littleDispatch(info);
                     return;
                 }
                 if(state[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL][ACTION.SMS_CODE].length != 6){
-                    let info = [];
-                    info[OPERATION.ERROR_INFO] ={};
+                    let info = store.getState();
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '手机验证码错误';
                     littleDispatch(info);
@@ -183,8 +181,7 @@ let loginAccount = (state,name) => {
                 }
             }else if(state[OPERATION.USER_INFO][ACTION.LOGIN_STATUS] === 5){
                 if(checkQrcodeNumber(state[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL][ACTION.PICTURE_QRCODE])){
-                    let info = [];
-                    info[OPERATION.ERROR_INFO] ={};
+                    let info = store.getState();
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
                     info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '图片验证码错误';
                     littleDispatch(info);
@@ -232,30 +229,22 @@ let changeUuid = () => {
 //-----------------------------------------------
 // 异步调用之后的处理公用
 let changeCommonStatus = (data,name='') =>{
-    let info = {};
-    info[OPERATION.ERROR_INFO] = {};
+    let info = store.getState();
     info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = data.data.code;
     info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = data.data.description;
 
     if(data.data.code === 0){
         if(name === OPERATION.CHECK_QRCODE){
-            info[OPERATION.PATH_INFO] = {};
-            info[OPERATION.SYSTEM_INFO] = {};
             info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = OPERATION.CHECK_SMS_CODE;
-            info[OPERATION.SYSTEM_INFO][ACTION.SMS_LEFT_TIME] = 9;
+            info[OPERATION.SYSTEM_INFO][ACTION.SMS_LEFT_TIME] = 59;
             info[OPERATION.SYSTEM_INFO][ACTION.SMS_START_COUNT] = 0;
         }else if(name === OPERATION.CHECK_SMS_CODE){
-            info[OPERATION.PATH_INFO] = {};
             info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = OPERATION.SET_PASSWORD;
         }else if(name === OPERATION.REGISTER_NOW){
-            info[OPERATION.PATH_INFO] = {};
             info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = OPERATION.SUCCESS_REGISTER;
         }else if(name === OPERATION.NETWORK_CHECK){
-            info[OPERATION.SYSTEM_INFO] = {};
             info[OPERATION.SYSTEM_INFO][ACTION.CLIENT_IP] = data.data.data;
         }else if(name === OPERATION.LOGIN_OPERATION){
-            info[OPERATION.PATH_INFO] = {};
-            info[OPERATION.USER_INFO] = {};
             info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = OPERATION.LOGIN_OPERATION;
             info[OPERATION.USER_INFO][ACTION.LOGIN_STATUS] = data.data.data.status;
             if(data.data.data.status === 0){
@@ -269,7 +258,6 @@ let changeCommonStatus = (data,name='') =>{
                 info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = "密码错误过多，请输入图片验证码";
             }
         }else if(name === OPERATION.LOGIN_SUCCESS){
-            info[OPERATION.USER_INFO] = {};
             info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] = data.data.data.token;
             info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID] = data.data.data['user_id'];
         }else if(name === OPERATION.UPDATE_TOKEN){
@@ -279,17 +267,15 @@ let changeCommonStatus = (data,name='') =>{
         }
     }else{
         if(name === OPERATION.LOGIN_SUCCESS){
-            info[OPERATION.USER_INFO] = {};
             info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] = '';
             info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID] = '';
         }else if(name === OPERATION.UPDATE_TOKEN){
-            info[OPERATION.USER_INFO] = {};
             info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] = '';
             info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID] = '';
         }
     }
     const action = {
-        type:SUBMIT_INPUT,
+        type:CHANGE_STORE,
         info:info
     }
     store.dispatch(action)
@@ -298,14 +284,11 @@ let changeCommonStatus = (data,name='') =>{
 
 // 注册成功后跳转情况状态
 let clearRegisterStatus = () =>{
-    let info = {};
-    info[OPERATION.SYSTEM_INFO] = {};
-    info[OPERATION.PATH_INFO] = {};
-    info[OPERATION.USER_INFO] = {};
+    let info = store.getState();
     info[OPERATION.SYSTEM_INFO][ACTION.JUMP_COUNT] = 0;
     info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = '';
     info[OPERATION.PATH_INFO][ACTION.CURRENT_PATH] = PATH.USER_LOGIN;
-    info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL] = {};
+
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.MOBILE_NUMBER] = '';
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.PICTURE_QRCODE] = '';
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.SET_PASSWORD] = '';
@@ -313,7 +296,7 @@ let clearRegisterStatus = () =>{
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.SMS_CODE] = '';
 
     const action = {
-        type:SUBMIT_INPUT,
+        type:CHANGE_STORE,
         info:info
     }
     store.dispatch(action);
@@ -321,13 +304,12 @@ let clearRegisterStatus = () =>{
 
 // 验证手机号码操作
 let mobileNumberCheck = (phoneNumber) => {
-    let info = [];
+    let info = store.getState();
     if(!checkPhoneNumber(phoneNumber)){
-        info[OPERATION.ERROR_INFO] = {};
         info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
         info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '手机号验证错误';
         const action = {
-            type:SUBMIT_INPUT,
+            type:CHANGE_STORE,
             info:info
         }
         store.dispatch(action)
@@ -337,7 +319,7 @@ let mobileNumberCheck = (phoneNumber) => {
 
 // 发送短信验证码
 let picQrcodeCheck = (state,model,name) =>{
-    let info = [];
+    let info = store.getState();
     let type = ''
     if(model === OPERATION.LOGIN_MODEL){
         type = 'login';
@@ -345,11 +327,10 @@ let picQrcodeCheck = (state,model,name) =>{
         type = 'register';
     }
     if(checkQrcodeNumber(state[OPERATION.USER_INFO][model][ACTION.PICTURE_QRCODE])){
-        info[OPERATION.SYSTEM_INFO] = {};
-        info[OPERATION.SYSTEM_INFO][ACTION.ERROR_CODE] = 100000;
-        info[OPERATION.SYSTEM_INFO][ACTION.ERROR_DESCRIPTION] = '图片验证码错误';
+        info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 100000;
+        info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '图片验证码错误';
         const action = {
-            type:SUBMIT_INPUT,
+            type:CHANGE_STORE,
             info:info
         }
         store.dispatch(action)
@@ -372,17 +353,12 @@ let picQrcodeCheck = (state,model,name) =>{
 
 // 清空redux暂存数据
 let clearReduxData = () =>{
-    let info = {};
-    info[OPERATION.ERROR_INFO] = {};
-    info[OPERATION.PATH_INFO] = {};
-    info[OPERATION.USER_INFO] = {};
+    let info = store.getState();
     info[OPERATION.ERROR_INFO][ACTION.ERROR_CODE] = 0;
     info[OPERATION.ERROR_INFO][ACTION.ERROR_DESCRIPTION] = '';
     info[OPERATION.PATH_INFO][ACTION.CURRENT_OPERATION] = '';
     info[OPERATION.USER_INFO][ACTION.LOGIN_STATUS] = 1;
-    info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL] = {};
-    info[OPERATION.USER_INFO][OPERATION.LOGIN_MODEL] = {};
-    info[OPERATION.USER_INFO][OPERATION.FIND_PASSWORD_MODEL] = {};
+
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.MOBILE_NUMBER] = ''
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.PICTURE_QRCODE] = ''
     info[OPERATION.USER_INFO][OPERATION.REGISTER_MODEL][ACTION.SET_PASSWORD] = ''
@@ -402,7 +378,7 @@ let clearReduxData = () =>{
     info[OPERATION.USER_INFO][OPERATION.FIND_PASSWORD_MODEL][ACTION.SMS_CODE] = ''
 
     const action = {
-        type:SUBMIT_INPUT,
+        type:CHANGE_STORE,
         info:info
     }
     store.dispatch(action)
@@ -411,7 +387,7 @@ let clearReduxData = () =>{
 // 更新redux中的状态
 let littleDispatch = (info) =>{
     const action = {
-        type:SUBMIT_INPUT,
+        type:CHANGE_STORE,
         info:info
     }
     store.dispatch(action);

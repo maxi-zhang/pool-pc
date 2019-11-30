@@ -1,5 +1,5 @@
 import { makeUuid } from '../components/common/Common'
-import {CHANGE_INPUT, CHANGE_MENU, CHANGE_UUID, SUBMIT_INPUT} from './config'
+import {CHANGE_INPUT, CHANGE_MENU, CHANGE_STORE, CHANGE_UUID, SUBMIT_INPUT} from './config'
 import {ACTION, HOST, OPERATION} from "../components/common/Config";
 
 const defaultState = {
@@ -63,6 +63,10 @@ export default (state = defaultState,action)=>{
     if(action.type === CHANGE_INPUT){
         let newState = JSON.parse(JSON.stringify((state)));
         newState[OPERATION.USER_INFO][action.model][action.key]=action.value;
+        return newState;
+    }
+    if(action.type === CHANGE_STORE){
+        let newState = action.info;
         return newState;
     }
 
