@@ -98,7 +98,7 @@ export default (state = defaultState,action)=>{
     // 修改图片验证码uuid
     if(action.type === CHANGE_UUID){
         let newState = JSON.parse(JSON.stringify((state)));
-        newState.uuid = makeUuid();
+        newState[OPERATION.SYSTEM_INFO].uuid = makeUuid();
         return  newState;
     }
 
