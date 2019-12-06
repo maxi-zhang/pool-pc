@@ -148,11 +148,11 @@ h5.login-title{
       line-height:16px;
     }
     .tip1{
-      left: 130px;
+      right: 488px;
       top: 22px;
     }
     .tip2{
-      left: 239px;
+      right: 411px;
       top: 22px;
     }
     button{
@@ -262,7 +262,7 @@ h5.login-title{
       position: absolute;
     }
     .icon2{
-      left: 392px;
+      right: 282px;
       top: 21px;
       position: absolute;
     }
@@ -278,16 +278,18 @@ h5.login-title{
       color:rgba(87,134,210,1);
     }
     .tip2{
-      left: 410px;
+      right: 274px;
       top: 17px;
       color:rgba(87,134,210,1);
+      transform: translate(100%, 0%);
     }
     .text1{
       left: 118px;
       top: 37px;
     }
     .text2{
-      left: 410px;
+      right: 274px;
+      transform: translate(100%, 0%);
       top: 37px;
     }
   }
@@ -891,6 +893,82 @@ h5.login-title{
     }
 
   }
+  .add-group{
+    &:extend(.fix);
+    width:410px;
+    height:314px;
+    h5{
+      position: absolute;
+      left: 30px;
+      top: 18px;
+      font-size:12px;
+      font-family:MicrosoftYaHei-Bold,MicrosoftYaHei;
+      font-weight:bold;
+      color:rgba(46,46,46,1);
+      line-height:16px;
+    }
+    .error-area{
+      width: 350px;
+      height: 26px;
+      margin: 50px auto 0;
+    }
+    .list-area{
+      width: 410px;
+      height: 171px;
+      margin: 0 auto ;
+      overflow-y: auto;
+      .input-area{
+        width: 281px;
+        height: 42px;
+        margin: 45px auto 0;
+        position: relative;
+        input{
+          position: absolute;
+          width:199px;
+          height:42px;
+          background:rgba(247,249,252,1);
+          border-radius:6px;
+          right: 8px;
+        }
+        p{
+          font-size:12px;
+          color:rgba(46,46,46,1);
+          line-height:16px;
+          position: absolute;
+          top: 12px;
+          left: 8px;
+          span{
+            color: #D0021B;
+          }
+        }
+      }
+    }
+    .underline{
+      width:410px;
+      height:1px;
+      background:rgba(241,245,251,1);
+      position: absolute;
+      top: 251px;
+    }
+    .button{
+      position: absolute;
+      width:68px;
+      height:28px;
+      background:rgba(87,134,210,1);
+      border-radius:6px;
+      top:269px;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      border: none;
+      font-size:11px;
+      font-family:MicrosoftYaHei;
+      color:rgba(255,255,255,1);
+      transition: 0.2s;
+    }
+    .button:hover{
+      background-color: #4A90E2;
+    }
+  }
   .delete-group{
     &:extend(.fix);
     width:560px;
@@ -1415,7 +1493,9 @@ h5.login-title{
     font-size:11px;
     color:rgba(46,46,46,1);
     line-height:15px;
-
+  }
+  .rent{
+    left: 392px;
   }
   .error-area{
     width: 500px;
@@ -1500,7 +1580,7 @@ h5.login-title{
 .create-pool-two{
   &:extend(.fix);
   width:560px;
-  height:438px;
+  height:358px;
   h5{
     position: absolute;
     left: 30px;
@@ -1547,8 +1627,9 @@ h5.login-title{
   }
   .create-main{
     width: 560px;
-    height: 280px;
+    height: 200px;
     position: absolute;
+    overflow-y: auto;
     top: 80px;
     .coin-logo{
       width: 40px;
@@ -1560,55 +1641,45 @@ h5.login-title{
         width: 100%;
       }
     }
-    p{
-      position: absolute;
-      width: 78px;
-      left: 127px;
-      font-size:12px;
-      font-family:MicrosoftYaHei-Bold,MicrosoftYaHei;
-      font-weight:bold;
-      color: #2E2E2E;
-      line-height:16px;
-      text-align: right;
-      span{
-        color:rgba(208,2,27,1);
-      }
-    }
-    .tip1{
-      top:67px;
-    }
-    .tip2{
-      top:130px;
-    }
-    .tip3{
-      top:172px;
-    }
-    .tip4{
-      top:212px;
-    }
-    .tip5{
-      top:254px;
-    }
-    input{
-      width: 216px;
+    .info{
+      width: 305px;
+      margin: 6px auto 0;
       height: 36px;
-      position: absolute;
-      left: 210px;
-    }
-    .input1{
-      top:57px;
-    }
-    .input2{
-      top:120px;
-    }
-    .input3{
-      top:162px;
-    }
-    .input4{
-      top:204px;
-    }
-    .input5{
-      top:246px;
+      position: relative;
+      h4{
+        position: absolute;
+        width: 216px;
+        right: 0px;
+        top:0px;
+        height:15px;
+        margin: 0;
+        font-size:11px;
+        font-family:MicrosoftYaHei;
+        color:rgba(74,144,226,1);
+        line-height:15px;
+      }
+      input{
+        width: 216px;
+        height: 36px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+      }
+      p{
+        position: absolute;
+        width: 98px;
+        left: -10px;
+        top: 10px;
+        font-size:12px;
+        font-family:MicrosoftYaHei-Bold,MicrosoftYaHei;
+        font-weight:bold;
+        color: #2E2E2E;
+        line-height:16px;
+        text-align: right;
+        span{
+          color:rgba(208,2,27,1);
+        }
+      }
     }
   }
   .underline{
@@ -1616,7 +1687,7 @@ h5.login-title{
     height:1px;
     background:rgba(241,245,251,1);
     position: absolute;
-    top: 378px;
+    top: 298px;
   }
   .button{
     position: absolute;
@@ -1624,7 +1695,7 @@ h5.login-title{
     height:28px;
     background:rgba(87,134,210,1);
     border-radius:6px;
-    top:394px;
+    top:314px;
     left: 246px;
     border: none;
     font-size:11px;
