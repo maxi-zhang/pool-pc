@@ -3,12 +3,13 @@ import store from "../../../store";
 import {
     changeMiningStatus,
     changePoolInfo,
+    deletePool,
     closeOpenArea,
     getWarningInfo,
     openPopupBox, submitPoolSetModify
 } from "../../common/model/PoolModel";
 import {ACTION, OPERATION} from "../../common/Config";
-import {Dropdown, Icon, Input, Menu, message, Switch} from "antd";
+import {Dropdown, Icon, Input, Menu, message, Switch,Modal} from "antd";
 import FileIcon from "../../../img/filecoin.png";
 import LambIcon from "../../../img/lambicon.png";
 import {isEmpty} from "../../common/Common";
@@ -60,8 +61,25 @@ export default class PoolSet extends React.Component{
     submitModify(){
         submitPoolSetModify()
     }
+    showConfirm(){
+        const { confirm } = Modal;
+        confirm({
+            title: '您确定要解散矿场吗?',
+            content: '',
+            okText: '确定',
+            cancelText:'取消',
+            onOk() {
+                deletePool()
+            },
+            onCancel() {
+
+            },
+        });
+    }
     render() {
         const { TextArea } = Input;
+
+
         const menu = (
             <Menu>
                 <Menu.Item>
@@ -83,7 +101,7 @@ export default class PoolSet extends React.Component{
         );
 
         return(
-            <div>
+            <React.Fragment>
                 <div onClick={this.closeAreaSet.bind(this)} className={"delete-group-background"}></div>
                 <div className={"pool-set-center"}>
                     <h5>矿场设置</h5>
@@ -185,11 +203,12 @@ export default class PoolSet extends React.Component{
                             </Dropdown>
                         </div>
                         <h6 className={"title5"}>解散矿场:</h6>
-                        <input type={"button"} className={"dismiss"} value={"解散矿场"} />
+                        <input onClick={this.showConfirm.bind(this)} type={"button"} className={"dismiss"} value={"解散矿场"} />
                     </div>
                     <input onClick={this.submitModify.bind(this)} className={"confirm"} type={"button"} value={"确定"} />
                 </div>
-            </div>
+
+            </React.Fragment>
         )
     }
 }

@@ -1,13 +1,10 @@
 import React from 'react';
 import store from "../../../store";
-import {Icon, Checkbox, DatePicker, Input, Menu, Dropdown} from "antd";
+import {Icon, DatePicker, Input, Menu, Dropdown} from "antd";
 import moment from 'moment';
 import {ACTION, OPERATION} from "../../common/Config";
-import {isEmpty,getDiskPower} from "../../common/Common";
-import {
-    changeIndex, delPoolGroupData, getUngroupInfo, getUserPool,
-    openPopupBox,
-} from "../../common/model/PoolModel";
+import {getDiskPower, isEmpty} from "../../common/Common";
+import {getUserPool} from "../../common/model/PoolModel";
 import PoolInsideTop from "./PoolInsideTop";
 import PoolSet from "./PoolSet"
 import AddMiner from "./AddMiner"
@@ -15,12 +12,18 @@ import DeleteMiner from "./DeleteMiner"
 import AddGroup from  "./AddGroup"
 import DeleteGroup from  "./DeleteGroup"
 import PowerTotal from  "./PowerTotal"
+import GroupList from  "./GroupList"
+import MinerListDetail from "./MinerListDetail"
+import GroupPowerTotal from  "./GroupPowerTotal"
+import AddGroupMiner from "./AddGroupMiner"
+import DeleteGroupMiner from "./DeleteGroupMiner"
+
 
 export default class app extends React.Component {
     constructor(props){
         super(props);
         this.state = store.getState();
-        getUserPool(this.state);
+        getUserPool();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -63,10 +66,10 @@ export default class app extends React.Component {
                             </React.Fragment> :<React.Fragment></React.Fragment>
                         }
                         {/* 矿机模块的页面  */}
-                        {(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === "default")?
+                        {(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === "default" || !isNaN(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]))?
                             <React.Fragment>
                                 <ControlPanel />
-                                <PowerTotal />
+                                <GroupPowerTotal/>
                                 <MinerListDetail />
                             </React.Fragment> :<React.Fragment></React.Fragment>
                         }
@@ -91,6 +94,12 @@ export default class app extends React.Component {
                         }
                         {this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.DEL_GROUP?
                             <DeleteGroup />:<React.Fragment></React.Fragment>
+                        }
+                        {this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.ADD_GROUP_MINER?
+                            <AddGroupMiner/>:<React.Fragment></React.Fragment>
+                        }
+                        {this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.DELETE_GROUP_MINER?
+                            <DeleteGroupMiner/>:<React.Fragment></React.Fragment>
                         }
                     </React.Fragment>:<React.Fragment></React.Fragment>
                 }
@@ -125,70 +134,6 @@ class RentTotal extends React.Component {
                     <div className={"tip-icon icon2"}></div>
                     <p className={"tip2"}>剩余节点：1</p>
                 </div>
-            </div>
-        );
-    }
-}
-
-class GroupList extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        delPoolGroupData([])
-        getUngroupInfo()
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state)
-    }
-    changeIndex(module){
-        changeIndex(module)
-    }
-    openPopupBox(path){
-        openPopupBox(path)
-    }
-    render() {
-        const list = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][OPERATION.DEL_GROUP][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]
-        const listItems =(
-            Object.keys(list).map((key)=> {
-                return(
-                    <div key={key} onClick={this.changeIndex.bind(this,list[key]['group_id'])} className={"group-list-single"}>
-                        <p className={"text1"}>{list[key]['name']}</p>
-                        <p className={"text2"}>{list[key]['device_online']}/{list[key]['device_all']}</p>
-                        <p className={"text3"}>{list[key]['power']}</p>
-                    </div>
-                )
-            })
-        )
-        const form = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.UNGROUP_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]
-        return (
-            <div className={"border"}>
-                <div className={"total-machine"}>
-                    <h5>矿机数：12/20</h5>
-                    <Icon onClick={this.openPopupBox.bind(this,OPERATION.ADD_GROUP)} style={{color:"#7C8B96",fontSize:"20px",position:"absolute",right:"40px"}} type="plus-circle" />
-                    <Icon onClick={this.openPopupBox.bind(this,OPERATION.DEL_GROUP)}  style={{color:"#7C8B96",fontSize:"20px",position:"absolute",right:"71px"}} type="minus-circle" />
-                </div>
-                <div className={"pool-list-topic"}>
-                    <p className={"tip1"}>组名</p>
-                    <p className={"tip2"}>矿机数</p>
-                    <p className={"tip3"}>算力大小</p>
-                </div>
-
-                {isEmpty(form)?
-                    <React.Fragment></React.Fragment>:<React.Fragment><div onClick={this.changeIndex.bind(this,"default")} className={"group-list-single"}>
-                        <p className={"text1"}>默认分组</p>
-                        <p className={"text2"}>{form['device_online']}/{form['device_all']}</p>
-                        <p className={"text3"}>{getDiskPower(form['power'])}</p>
-                    </div></React.Fragment>
-                }
-                {listItems}
             </div>
         );
     }
@@ -314,83 +259,6 @@ class ControlPanel extends React.Component{
                 <p className={"tip1"}>重启</p>
                 <p className={"tip2"}>关闭</p>
                 <p className={"tip3"}>远程诊断</p>
-            </div>
-        )
-    }
-}
-
-class MinerListDetail extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state)
-    }
-    render() {
-        return(
-            <div className={"border"}>
-                <div className={"machine-list-title"}>
-                    <p className={"tip1"}>矿机名</p>
-                    <p className={"tip2"}>开关</p>
-                    <p className={"tip3"}>磁盘</p>
-                    <p className={"tip4"}>加入时间</p>
-                    <p className={"tip5"}>带宽</p>
-                    <p className={"tip6"}>所在地</p>
-                    <p className={"tip7"}>状态</p>
-                </div>
-
-                <div className={"mining-list-detail"}>
-                    <p className={"text1"}>TradeCode1</p>
-                    <p className={"text2"}>在线</p>
-                    <p className={"text3"}>24盘-10TB/110TB</p>
-                    <p className={"text4"}>2019-10-12</p>
-                    <p className={"text5"}>100M</p>
-                    <p className={"text6"}>北京</p>
-                    <p className={"text7"}>出矿中</p>
-                    <Checkbox style={{position:"absolute",top:"22px",left:"644px"}}></Checkbox>
-                </div>
-
-                <div className={"mining-list-detail"}>
-                    <p className={"text1"}>TradeCode1</p>
-                    <p className={"text2"}>在线</p>
-                    <p className={"text3"}>24盘-10TB/110TB</p>
-                    <p className={"text4"}>2019-10-12</p>
-                    <p className={"text5"}>100M</p>
-                    <p className={"text6"}>北京</p>
-                    <p className={"text7"}>出矿中</p>
-                    <Checkbox style={{position:"absolute",top:"22px",left:"644px"}}></Checkbox>
-                </div>
-
-                <div className={"mining-list-detail"}>
-                    <p className={"text1"}>TradeCode1</p>
-                    <p className={"text2"}>在线</p>
-                    <p className={"text3"}>24盘-10TB/110TB</p>
-                    <p className={"text4"}>2019-10-12</p>
-                    <p className={"text5"}>100M</p>
-                    <p className={"text6"}>北京</p>
-                    <p className={"text7"}>出矿中</p>
-                    <Checkbox style={{position:"absolute",top:"22px",left:"644px"}}></Checkbox>
-                </div>
-
-                <div className={"mining-list-detail"}>
-                    <p className={"text1"}>TradeCode1</p>
-                    <p className={"text2"}>在线</p>
-                    <p className={"text3"}>24盘-10TB/110TB</p>
-                    <p className={"text4"}>2019-10-12</p>
-                    <p className={"text5"}>100M</p>
-                    <p className={"text6"}>北京</p>
-                    <p className={"text7"}>出矿中</p>
-                    <Checkbox style={{position:"absolute",top:"22px",left:"644px"}}></Checkbox>
-                </div>
             </div>
         )
     }
@@ -622,3 +490,5 @@ class AdvanceSearch extends React.Component{
         )
     }
 }
+
+

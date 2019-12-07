@@ -1,7 +1,7 @@
 import React from "react";
 
 const HOST = {
-    'USER_HOST': 'http://devpuser1.arsyun.com/',
+    'USER_HOST': 'http://testuser2.arsyun.com/',
 };
 
 // store 存储的键名
@@ -49,6 +49,8 @@ const ACTION = {
     'CHOOSE_CAN_ADD':'choose_can_add',
     'CAN_DEL_MINER':'can_del_miner',
     'CHOOSE_CAN_DEL':'choose_can_del',
+    'GROUP_CAN_ADD_MINER':'group_can_add_miner',
+    'GROUP_CAN_DELETE_MINER':'group_can_delete_miner',
 
     'POOL_NAME':'pool_name',
     'POOL_NOTICE':'pool_notice',
@@ -74,6 +76,8 @@ const ACTION = {
 
     'IF_CLEAR':'if_clear',
     'UNGROUP_INFO':'ungroup_info',
+    'UNGROUP_DEVICE':'ungroup_device',
+    'GROUP_INFO':'group_info',
 
     // 矿场模块的键名
     'CURRENT_POOL':'current_pool',//当前矿场的矿场ID
@@ -95,6 +99,7 @@ const OPERATION = {
     'MENU_INFO':'menu_info',
     'PATH_INFO':'path_info',
     'POOL_INFO':'pool_info',
+    'DEVICE_INFO':'device_info',
     // redux 结构大模块键名
     'REGISTER_MODEL':'register_model',
     'LOGIN_MODEL':'login_model',
@@ -118,6 +123,9 @@ const OPERATION = {
     'POOL_SET':'pool_set',//矿场设置弹框
     'ADD_MINER':'add_miner',//添加矿机
     'DELETE_MINER':'delete_miner',//移除矿机
+    'ADD_GROUP_MINER':'add_group_miner',//添加组内矿机
+    'DELETE_GROUP_MINER':'delete_group_miner',//添加组内矿机
+
     'POOL_MAIN':'pool_main',//矿机主要
     'BIND_MINER':'bind_miner',//移除矿机
 

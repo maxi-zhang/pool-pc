@@ -30,13 +30,21 @@ export default class PoolInsideTop extends React.Component{
     openPopupBox(path){
         if(path === OPERATION.POOL_SET){
             setPoolWallet();
-        }else if(path === OPERATION.ADD_MINER){
-            openPopupBox(OPERATION.ADD_MINER);
-        }else if(path === OPERATION.DELETE_MINER){
-            openPopupBox(OPERATION.DELETE_MINER);
+        }else{
+            openPopupBox(path);
         }
     }
     render() {
+
+        // 当前矿场ID
+        const pid = this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]
+        // 当前矿场信息
+        const pool = this.state[OPERATION.POOL_INFO][pid]
+        // 当前矿场选中币种
+        const coin = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.CURRENT_COIN][pid]
+        // 当前的Group id
+        const gid = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX]
+
         const listItems =(
             Object.keys(this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info']).map((key)=> {
                 return(
@@ -60,16 +68,33 @@ export default class PoolInsideTop extends React.Component{
                         设置
                     </a>
                 </Menu.Item>
-                <Menu.Item>
-                    <a onClick={this.openPopupBox.bind(this,OPERATION.ADD_MINER)} rel="noopener noreferrer" href="/#/">
-                        添加矿工
-                    </a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a onClick={this.openPopupBox.bind(this,OPERATION.DELETE_MINER)} rel="noopener noreferrer" href="/#/">
-                        移除矿工
-                    </a>
-                </Menu.Item>
+                {(gid[pid] === "default") ?
+                    <React.Fragment></React.Fragment> :
+                    <Menu.Item>
+                        {!isNaN(gid[pid]) ?
+                            <a onClick={this.openPopupBox.bind(this, OPERATION.ADD_GROUP_MINER)}
+                               rel="noopener noreferrer" href="/#/">
+                                添加矿工
+                            </a> :
+                            <a onClick={this.openPopupBox.bind(this, OPERATION.ADD_MINER)} rel="noopener noreferrer"
+                               href="/#/">
+                                添加矿工
+                            </a>
+                        }
+                    </Menu.Item>
+                }
+                {(gid[pid] === "default") ?
+                    <React.Fragment></React.Fragment> :
+                        <Menu.Item>
+                            {!isNaN(gid[pid])?
+                                <a onClick={this.openPopupBox.bind(this,OPERATION.DELETE_GROUP_MINER)} rel="noopener noreferrer" href="/#/">
+                                    移除矿工
+                                </a>:<a onClick={this.openPopupBox.bind(this,OPERATION.DELETE_MINER)} rel="noopener noreferrer" href="/#/">
+                                    移除矿工
+                                </a>
+                            }
+                        </Menu.Item>
+                }
                 <Menu.Item>
                     <a rel="noopener noreferrer" href="/#/">
                         excel导入矿机
@@ -87,38 +112,41 @@ export default class PoolInsideTop extends React.Component{
                 </Menu.Item>
             </Menu>
         );
+
+
+
         return(
             <div className={"pool-top-common"}>
-                <h5>{stringCut(this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['name'],13)}</h5>
+                <h5>{stringCut(pool['name'],13)}</h5>
                 <h6 className={"tip1"}>总磁盘：
-                    {getDiskPower(this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['disk_space_all'])}
+                    {getDiskPower(pool['disk_space_all'])}
                 </h6>
-                {this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info'].length > 1?
-                    <h6 className={"tip2"}>{this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info'][0]['mining_type']}/{this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info'][1]['mining_type']}</h6>:
-                    <h6 className={"tip2"}>{this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info'][0]['mining_type']}</h6>
+                {pool['mining_info'].length > 1?
+                    <h6 className={"tip2"}>{pool['mining_info'][0]['mining_type']}/{pool['mining_info'][1]['mining_type']}</h6>:
+                    <h6 className={"tip2"}>{pool['mining_info'][0]['mining_type']}</h6>
                 }
-                {this.state[OPERATION.POOL_INFO][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]['mining_info'].length > 1?
+                {pool['mining_info'].length > 1?
                     <Dropdown placement={"bottomCenter"} overlayClassName={"more-operation"} overlay={menu} >
                         <div className={"coin-select"}>
                             <a className="ant-dropdown-link" href="#">
-                                <button className={"coin"}>{this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.CURRENT_COIN][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]} <Icon type="caret-down" /></button>
+                                <button className={"coin"}>{coin} <Icon type="caret-down" /></button>
                             </a>
                         </div>
                     </Dropdown>:<React.Fragment></React.Fragment>
                 }
                 {/*className={"rent"}*/}
                 <button onClick={this.changeIndex.bind(this,OPERATION.POOL_RENT)}
-                        className={this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_RENT?
+                        className={gid[pid] === OPERATION.POOL_RENT?
                             "rent on":"rent"
                         }
                         type={"button"} >租赁</button>
                 <button onClick={this.changeIndex.bind(this,OPERATION.POOL_OPERATION)}
-                        className={(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_OPERATION || isEmpty(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]))?
+                        className={(gid[pid] === OPERATION.POOL_OPERATION || isEmpty(gid[pid]))?
                             "manage on":"manage"
                         }
                         type={"button"} >运维</button>
                 <button onClick={this.changeIndex.bind(this,OPERATION.POOL_PROFIT)}
-                        className={this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_PROFIT?
+                        className={gid[pid] === OPERATION.POOL_PROFIT?
                             "income on":"income"
                         }
                         type={"button"} >收益</button>

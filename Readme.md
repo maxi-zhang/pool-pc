@@ -19,7 +19,7 @@
 #### 13：npm install redux-persist
 #### 14：reducer和action代码不需要动，store代码修改如index.js（redux的index）
 #### 15：主入口的index文件修改为当前index.js
-#### 13-15步操作参照：：[https://www.jianshu.com/p/bfa308164df4](https://www.jianshu.com/p/bfa308164df4)
+#### 13-15步操作参照：：[https://www.jianshu.com/p/a7a10ac59511](https://www.jianshu.com/p/a7a10ac59511)
 
 ### 样式及插件模块安装
 #### 16：npm install antd  样式及小插件组件antd

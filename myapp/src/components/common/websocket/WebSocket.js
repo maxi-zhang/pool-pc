@@ -4,7 +4,7 @@ import {ACTION, OPERATION} from "../Config";
 
 let condition = 0;
 let openWebSocket = () =>{
-    let ws = new ReconnectingWebSocket("ws://192.168.1.212:8088/ws");
+    let ws = new ReconnectingWebSocket("ws://120.79.36.70:8088/ws");
     ws.onopen = function(){
         let msg = '{"from":"html","act":"start","act_code":"start","user_id":'+store.getState()[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID]+',"token":"'+store.getState()[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN]+'"}';
         console.log(msg)

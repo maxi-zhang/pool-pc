@@ -121,6 +121,7 @@ const defaultState = {
             [ACTION.ADD_GROUP]:{},
             [ACTION.DEL_GROUP]:{},
             [ACTION.UNGROUP_INFO]:{},
+            [ACTION.GROUP_INFO]:{},
             [ACTION.CHOOSE_DEL_GROUP]:[]
         },
         [OPERATION.POOL_SET]:{
@@ -136,13 +137,19 @@ const defaultState = {
         },
         [OPERATION.ADD_MINER]:{
             [ACTION.CAN_ADD_MINER]:{},
+            [ACTION.GROUP_CAN_ADD_MINER]:{},
             [ACTION.CHOOSE_CAN_ADD]:[],
         },
         [OPERATION.DELETE_MINER]:{
             [ACTION.CAN_DEL_MINER]:{},
+            [ACTION.GROUP_CAN_DELETE_MINER]:{},
             [ACTION.CHOOSE_CAN_DEL]:[],
             [ACTION.IF_CLEAR]:true
         }
+    },
+    [OPERATION.DEVICE_INFO]:{
+        [ACTION.UNGROUP_DEVICE]:{},
+
     }
 }
 
