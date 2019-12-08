@@ -3,7 +3,7 @@ import store from "../../../store";
 import Axios from "axios";
 import {ACTION, BHDSET, COIN, FILSET, OPERATION, YTASET} from "../Config";
 import qs from 'qs';
-import {checkSpecialCharacter, isStringLen,isEmpty} from "../Common";
+import {checkSpecialCharacter, isStringLen, isEmpty, todayFormat} from "../Common";
 import {message} from "antd";
 
 // 更该目录信息
@@ -1013,7 +1013,7 @@ let getCanAddMiner = () =>{
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'trust_user_id':-1,
             'up_id':0,
             'group_id':-1,
             'is_trusteeship':-1,
@@ -1145,7 +1145,6 @@ let changePoolCoin = (coin) =>{
 let changeIndex = (module) =>{
     let info = store.getState();
     info[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] = module;
-
     const action = {
         type:CHANGE_STORE,
         info:info
@@ -1153,21 +1152,75 @@ let changeIndex = (module) =>{
     store.dispatch(action)
 
     if(module === 'default' || !isNaN(module)){
+        let info = store.getState();
+        info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SELECT] = []
+        info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SCREEN] = OPERATION.ALL_DEVICE
+        const action = {
+            type:CHANGE_STORE,
+            info:info
+        }
+        store.dispatch(action)
+
         getGroupInfo(module)
         getDeviceListInfo(module)
     }
+    if(module === OPERATION.POOL_PROFIT){
+        getPoolProfitInfo();
+    }
 }
+// 获取矿场收益列表
+let getPoolProfitInfo = () =>{
+    let info = store.getState()
+    let pool = info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3];
+    let coin = info[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.CURRENT_COIN][pool];
+
+    if(isEmpty(info[OPERATION.PROFIT_INFO][pool])){
+        info[OPERATION.PROFIT_INFO][ACTION.PROFIT_DATA][pool] = {};
+        const action = {
+            type:CHANGE_STORE,
+            info:info
+        }
+        store.dispatch(action)
+    }
+
+    Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    Axios.post('/pool/pool/balanceList/', qs.stringify(
+        {
+            'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
+            'up_id':pool,
+            'mining_type':coin,
+            'from_date':(isEmpty(info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pool]))?todayFormat():info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pool],
+            'to_date':(isEmpty(info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pool]))?todayFormat():info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pool],
+            'page':(isEmpty(info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_PAGE][pool]))?1:info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_PAGE][pool],
+            'page_size':(isEmpty(info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_PAGE_SIZE][pool]))?1000:info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_PAGE_SIZE][pool],
+            'keyword':(isEmpty(info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_KEYWORD][pool]))?"":info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_KEYWORD][pool],
+        })
+    ).then(function(data){
+        if(data.data.code === 0){
+            let info = store.getState()
+            info[OPERATION.PROFIT_INFO][ACTION.PROFIT_DATA][pool] = data.data.data;
+            const action = {
+                type:CHANGE_STORE,
+                info:info
+            }
+            store.dispatch(action)
+        }
+    })
+}
+
+
+// 获取当前矿场组的矿机信息
 let getDeviceListInfo = (module) =>{
     let info = store.getState()
     let gid = (!isNaN(module))?module:'';
-    // 获取当前矿场组的矿机信息
     Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
     Axios.post('/device/device/list/', qs.stringify(
         {
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'trust_user_id':-1,
             'up_id':info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3],
             'group_id':gid,
             'is_trusteeship':-1,
@@ -1396,7 +1449,7 @@ let getGroupCanAddMiner = () =>{
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'trust_user_id':-1,
             'up_id':pool,
             'group_id':0,
             'is_trusteeship':-1,
@@ -1490,7 +1543,7 @@ let getCanDelMiner = () =>{
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'trust_user_id':-1,
             'up_id':info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3],
             'group_id':-1,
             'is_trusteeship':-1,
@@ -1531,7 +1584,7 @@ let getGroupCanDelMiner = () =>{
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'trust_user_id':-1,
             'up_id':info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3],
             'group_id':gid,
             'is_trusteeship':-1,
@@ -1549,10 +1602,82 @@ let getGroupCanDelMiner = () =>{
     })
 }
 
+//选择当前操作的矿机
+let selectOperationMiner = (device,status) =>{
+    let info = store.getState();
+    if(status){
+        info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SELECT].push(device)
+    }else{
+        let index = info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SELECT].indexOf(device);
+        info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SELECT].splice(index,1)
+    }
+    const action = {
+        type:CHANGE_STORE,
+        info:info
+    }
+    store.dispatch(action)
+}
+
+// 修改矿机筛选状态
+let statusScreenMiner = (status) =>{
+    let info = store.getState();
+    info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SCREEN] = status
+    const action = {
+        type:CHANGE_STORE,
+        info:info
+    }
+    store.dispatch(action)
+}
+
+//开启远程诊断
+let openRemoveDiagnosis = () =>{
+    let info = store.getState();
+    if(info[OPERATION.DEVICE_INFO][ACTION.DEVICE_SELECT].length !== 1){
+        message.info('只能选择一台矿机开启远程诊断', 2);
+        return;
+    }
+}
+
+//修改选择时间
+let changePickTime = (range,update,value) =>{
+    let info = store.getState();
+    let pool = info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]
+    if(range === 'all'){
+        info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pool] = value
+        info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pool] = value
+    }
+    if(range === 'from'){
+        info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pool] = value
+    }
+    if(range === 'to'){
+        info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pool] = value
+    }
+    const action = {
+        type:CHANGE_STORE,
+        info:info
+    }
+    store.dispatch(action)
+    if(update){
+        getPoolProfitInfo();
+    }
+}
+
+// 修改关键词搜索
+let changeKeywordInput = (value) =>{
+    let info = store.getState();
+    let pool = info[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]
+    info[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_KEYWORD][pool] = value
+    const action = {
+        type:CHANGE_STORE,
+        info:info
+    }
+    store.dispatch(action)
+}
+
 
 
 export {addGroupPoolMiner,getGroupCanAddMiner,deletePool,changeIfClear,deleteGroup,selectDeleteGroup,delPoolGroupData,addPoolGroup,addPoolGroupData,changeIndex,changePoolCoin,addPoolMiner,delPoolMiner,addChooseMiner,getUngroupInfo
-    ,getGroupCanDelMiner,getCanAddMiner,getCanDelMiner,submitPoolSetModify,getWarningInfo,changeMiningStatus,changePoolInfo,getPoolCoinSet,setPoolWallet,getPoolInfo,changeCoinValue,
-    changeMenuStatus,getUserPool,openPopupBox,closeOpenArea,getPoolCoin,closeClearError,poolCoinChoose,changeIfDefaultRoot,modifyPoolName,checkCreatePoolOne,changeRentStatus,
-    changeRentPrice,checkCreatePoolTwo,changeCurrentCoin,delGroupMiner}
+    ,getGroupCanDelMiner,getCanAddMiner,getCanDelMiner,submitPoolSetModify,getWarningInfo,changeMiningStatus,changePoolInfo,getPoolCoinSet,setPoolWallet,getPoolInfo,changeCoinValue
+    ,statusScreenMiner,changeMenuStatus,getUserPool,openPopupBox,closeOpenArea,getPoolCoin,closeClearError,poolCoinChoose,changeIfDefaultRoot,modifyPoolName,checkCreatePoolOne,changeRentStatus,
+    changeRentPrice,checkCreatePoolTwo,changeCurrentCoin,delGroupMiner,selectOperationMiner,openRemoveDiagnosis,changePickTime,getPoolProfitInfo,changeKeywordInput}
 

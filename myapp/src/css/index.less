@@ -410,13 +410,17 @@ h5.login-title{
     .search-area{
       position: absolute;
       &:extend(.flex);
-      width:563px;
+      padding-right: 243px;
+      width:100%;
       height:38px;
       background:transparent;
       border-radius:6px;
       border: none;
-      border:1px solid rgba(87,134,210,1);
       left: 0;
+      .ant-input{
+        height: 38px;
+        border:1px solid rgba(87,134,210,1);
+      }
     }
     .screen-area{
       position: absolute;
@@ -425,7 +429,7 @@ h5.login-title{
       background:rgba(255,255,255,1);
       border-radius:4px;
       border:1px solid rgba(87,134,210,1);
-      left: 570px;
+      right: 121px;
       top:0px;
       font-size:12px;
       color:rgba(87,134,210,1);
@@ -437,6 +441,9 @@ h5.login-title{
       background-color:rgba(87,134,210,1);
       color: white;
     }
+    .ad{
+      right: 0px;
+    }
   }
   .total-income-area{
     min-width:@common-width;
@@ -447,24 +454,29 @@ h5.login-title{
     border-radius:4px;
     margin: 10px auto 0;
     position: relative;
+    .area-center{
+      position: absolute;
+      width: 240px;
+      height: 16px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
     .icon1{
-      left: 225px;
-      top: 27px;
+      left: 0px;
+      top: 3px;
     }
     p{
       position: absolute;
-      top: 24px;
       font-size:12px;
       color:rgba(46,46,46,1);
       line-height:16px;
     }
     .tip1{
-      left: 243px;
-      top:24px
+      left: 23px;
     }
     .tip2{
-      left: 314px;
-      top: 24px;
+      left: 85px;
     }
   }
   .income-detail-title{
@@ -1123,6 +1135,15 @@ h5.login-title{
     background:rgba(255,255,255,1);
     border-radius:4px;
     position: relative;
+    .ant-calendar-picker-input{
+      color: white!important;
+      opacity: 0;
+      z-index: 3;
+    }
+    .ant-calendar-picker-clear{
+      z-index: 4;
+    }
+
     .icon1{
       &:extend(.tip-icon);
       top:30px;
@@ -1148,7 +1169,10 @@ h5.login-title{
       top: 18px;
       left: 329px;
     }
-
+    .date-show{
+      top:4px;
+      font-size: 14px !important;
+    }
     button{
       position: absolute;
       width: 100px;
@@ -1157,7 +1181,7 @@ h5.login-title{
       border-radius:16px;
       border: none;
       top: 20px;
-      left: 516px;
+      right: 100px;
       font-size:12px;
       font-family:MicrosoftYaHei;
       color:rgba(87,134,210,1);

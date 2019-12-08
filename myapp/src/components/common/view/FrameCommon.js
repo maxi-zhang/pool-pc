@@ -6,12 +6,14 @@ import store from "../../../store";
 import {OPERATION, ACTION} from "../Config";
 import CreatePoolStepOne from "../../page/pool/CreatePoolStepOne"
 import CreatePoolStepTwo from "../../page/pool/CreatePoolStepTwo"
+import {openWebSocket} from "../websocket/WebSocket";
 
 
 export default class app extends React.Component {
     constructor(props){
         super(props);
         this.state = store.getState();
+        openWebSocket();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }

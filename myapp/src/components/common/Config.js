@@ -77,7 +77,17 @@ const ACTION = {
     'IF_CLEAR':'if_clear',
     'UNGROUP_INFO':'ungroup_info',
     'UNGROUP_DEVICE':'ungroup_device',
+    'DEVICE_SELECT':'device_select',
+    'DEVICE_SCREEN':'device_screen',
     'GROUP_INFO':'group_info',
+    // 收益相关键值
+    'PROFIT_DATA':'profit_data',
+    'PROFIT_CONDITION':'profit_condition',
+    'PROFIT_FROM_DATA':'profit_from_data',
+    'PROFIT_TO_DATA':'profit_to_data',
+    'PROFIT_PAGE':'profit_page',
+    'PROFIT_PAGE_SIZE':'profit_page_size',
+    'PROFIT_KEYWORD':'profit_keyword',
 
     // 矿场模块的键名
     'CURRENT_POOL':'current_pool',//当前矿场的矿场ID
@@ -100,6 +110,7 @@ const OPERATION = {
     'PATH_INFO':'path_info',
     'POOL_INFO':'pool_info',
     'DEVICE_INFO':'device_info',
+    'PROFIT_INFO':'profit_info',
     // redux 结构大模块键名
     'REGISTER_MODEL':'register_model',
     'LOGIN_MODEL':'login_model',
@@ -137,8 +148,8 @@ const OPERATION = {
     'POWER_POOL':'power_pool',//矿池算力
     'POWER_MACHINE':'power_machine',//矿机算力
     'SCREENING_CONDITIONS':'screening_conditions',//筛选条件
-    'ADVANCE_SEARCH_ONE':'advance_search',//高级搜索1
-    'ADVANCE_SEARCH_TWO':'advance_search',//高级搜索2
+    'ADVANCE_SEARCH_ONE':'advance_search_one',//高级搜索1
+    'ADVANCE_SEARCH_TWO':'advance_search_two',//高级搜索2
     'BILL_APPLY':'bill_apply',//订单申请
     'ADD_GROUP':'add_group',//添加分组
     'DEL_GROUP':'del_group',//删除分组
@@ -148,6 +159,10 @@ const OPERATION = {
     'UPDATE_POOL_COIN':'update_pool_coin',//更新矿池信息
     'SINGLE_POOL_DATA':'single_pool_data',//获取矿场信息
 
+    //矿机筛选相关
+    'ALL_DEVICE':'all_device',
+    'ONLINE_DEVICE':'online_device',
+    'OFFLINE_DEVICE':'offline_device',
 
     // 通用操作常量配置（确定操作）
     'NETWORK_CHECK':'network_check', //网络状态检查

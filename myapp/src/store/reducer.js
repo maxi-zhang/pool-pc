@@ -149,8 +149,19 @@ const defaultState = {
     },
     [OPERATION.DEVICE_INFO]:{
         [ACTION.UNGROUP_DEVICE]:{},
-
-    }
+        [ACTION.DEVICE_SELECT]:[],
+        [ACTION.DEVICE_SCREEN]:"",
+    },
+    [OPERATION.PROFIT_INFO]:{
+        [ACTION.PROFIT_DATA]:{},
+        [ACTION.PROFIT_CONDITION]:{
+            [ACTION.PROFIT_FROM_DATA]:{},
+            [ACTION.PROFIT_TO_DATA]:{},
+            [ACTION.PROFIT_PAGE]:{},
+            [ACTION.PROFIT_PAGE_SIZE]:{},
+            [ACTION.PROFIT_KEYWORD]:{},
+        },
+    },
 }
 
 export default (state = defaultState,action)=>{

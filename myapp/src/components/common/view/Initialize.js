@@ -2,7 +2,6 @@ import React from 'react';
 import store from "../../../store";
 import {checkNetworkIp, checkUserToken} from "../Common";
 import {ACTION, OPERATION} from "../Config";
-import { openWebSocket } from "../../common/websocket/WebSocket"
 
 export default class app extends React.Component {
     constructor(props){
@@ -11,7 +10,6 @@ export default class app extends React.Component {
         checkNetworkIp()
         if(this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] && this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID]){
             checkUserToken(this.state);
-            openWebSocket();
         }
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);

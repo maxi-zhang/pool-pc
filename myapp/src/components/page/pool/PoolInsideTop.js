@@ -113,8 +113,6 @@ export default class PoolInsideTop extends React.Component{
             </Menu>
         );
 
-
-
         return(
             <div className={"pool-top-common"}>
                 <h5>{stringCut(pool['name'],13)}</h5>

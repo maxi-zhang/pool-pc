@@ -137,5 +137,56 @@ let stringCut = (name,length) =>{
     }
 }
 
+// 返回今天的年月日格式
+let todayFormat = (link = "-") =>{
+    let date = new Date(new Date().getTime() - 24*60*60*1000);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    if(month < 10){
+        month = '0'+month;
+    }
+    let day = date.getDate();
+    if(day < 10){
+        day = '0'+day;
+    }
+    return year+link+month+link+day
+}
 
-export {stringCut,getDiskPower,checkPhoneNumber,checkQrcodeNumber,makeUuid,checkPassword,makeClientCode,checkNetworkIp,checkUserToken,checkSpecialCharacter,isStringLen,isEmpty};
+// 返回今年3，去年4，上月2，本月1的时间起始时间
+
+let getTimePeriod = (i) =>{
+    let myDate = new Date();
+    let c_year = myDate.getFullYear();
+    let c_month = myDate.getMonth()+1;
+    let c_day = myDate.getDate();
+    let from;
+    let to;
+    if(i === 1){
+        from = c_year+'-'+c_month+'-01'
+        to = c_year+'-'+c_month+'-'+c_day
+    }
+    if(i === 2){
+        if(c_month == 1){
+            c_month = 12;
+            c_year = c_year -1;
+        }else{
+            c_month = c_month -1;
+        }
+        let lastDay = new Date(c_year, c_month, 0)
+        from = c_year+'-'+c_month+'-01';
+        to = c_year+'-'+c_month+'-'+lastDay.getDate();
+    }
+    if(i === 3){
+        from = c_year+'-01-01';
+        to = c_year+'-12-31';
+    }
+    if(i === 4){
+        from = (c_year-1)+'-01-01';
+        to = (c_year-1)+'-12-31';
+    }
+    return [from,to]
+}
+
+
+
+export {getTimePeriod,todayFormat,stringCut,getDiskPower,checkPhoneNumber,checkQrcodeNumber,makeUuid,checkPassword,makeClientCode,checkNetworkIp,checkUserToken,checkSpecialCharacter,isStringLen,isEmpty};
