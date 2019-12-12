@@ -1,7 +1,7 @@
 import React from "react";
 
 const HOST = {
-    'USER_HOST': 'http://devpuser1.arsyun.com/',
+    'USER_HOST': 'http://testuser2.arsyun.com/',
 };
 
 // store 存储的键名
@@ -9,16 +9,28 @@ const ACTION = {
     // 用户模块的键名
     'CURRENT_PATH':'current_path',//当前的路径
     'CURRENT_OPERATION':'current_operation',//当前操作的模块
+    'CURRENT_OPEN':'current_open',//当前打开的弹窗
+    'POOL_INDEX':'pool_index',//矿场当前主页
+
     'LOGIN_STATUS':'login_status',//当前的登录状态
     'ADMIN_USER_ID':'admin_user_id',
     'ADMIN_TOKEN':'admin_token',
+    'TENANT_ID':'tenant_id',
+    'CAN_CHANGE_TENANT':'can_change_tenant',
+    'CAN_CHANGE_TYPE':'can_change_type',
+    'ADMIN_USER_NAME':'admin_user_name',
+    'ADMIN_USER_ICON':'admin_user_icon',
+    'ADMIN_ACCOUNT':'admin_account',
+    'ADMIN_TYPE':'admin_type',
+    'TENANT_PERMISSION':'tenant_permission',
+
     'ERROR_CODE':'error_code',
     'ERROR_DESCRIPTION':'error_description',
     'CLIENT_IP':'client_ip',
     'UUID': 'uuid',//产生图片验证码所用uuid
     'INDEX_MENU':'index_menu',//首页的目录位置
     'SECONDARY_MENU':'secondary_menu',//次级目录
-    'POOL_DATA':'pool_data',
+
     // 'CHECK_PIC_QRCODE': 'check_pic_qrcode',
     'MOBILE_NUMBER':'mobile_number',
     'PICTURE_QRCODE':'picture_qrcode',
@@ -28,6 +40,55 @@ const ACTION = {
     'SMS_LEFT_TIME':'sms_left_time',//短信验证码倒计时时间
     'SMS_START_COUNT':'sms_start_count',//短信验证码及时已经开始状态防止重复开启
     'JUMP_COUNT':'jump_count',//跳转倒计时
+
+    'POOL_DATA':'pool_data',
+    'POOL_COIN':'pool_coin',
+    'POOL_SET':'pool_set',
+
+    'CAN_ADD_MINER':'can_add_miner',
+    'CHOOSE_CAN_ADD':'choose_can_add',
+    'CAN_DEL_MINER':'can_del_miner',
+    'CHOOSE_CAN_DEL':'choose_can_del',
+    'GROUP_CAN_ADD_MINER':'group_can_add_miner',
+    'GROUP_CAN_DELETE_MINER':'group_can_delete_miner',
+
+    'POOL_NAME':'pool_name',
+    'POOL_NOTICE':'pool_notice',
+    //告警相关设置
+    'WARNING_DROP':'warning_drop',
+    'WARNING_BAD_LINE':'warning_bad_line',
+    'WARNING_TEMP_CPU':'warning_temp_cpu',
+    'WARNING_TEMP_DISK':'warning_temp_disk',
+    'WARNING_NO_ROOM':'warning_no_room',
+    'WARNING_RATE':'warning_rate',
+
+    'AP_NAME':'ap_name',
+    'AP_ID':'ap_id',
+    'AP_TYPE':'ap_type',
+    'POOL_ID':'pool_id',
+    'RENT_PRICE':'rent_price',
+    'IF_IS_RENT':'if_is_rent',
+    'IF_IS_DEFAULT':'if_is_default',
+    'CURRENT_COIN':'current_coin',
+    'ADD_GROUP':'add_group',
+    'DEL_GROUP':'del_group',
+    'CHOOSE_DEL_GROUP':'choose_del_group',
+
+    'IF_CLEAR':'if_clear',
+    'UNGROUP_INFO':'ungroup_info',
+    'UNGROUP_DEVICE':'ungroup_device',
+    'DEVICE_SELECT':'device_select',
+    'DEVICE_SCREEN':'device_screen',
+    'GROUP_INFO':'group_info',
+    // 收益相关键值
+    'PROFIT_DATA':'profit_data',
+    'PROFIT_CONDITION':'profit_condition',
+    'PROFIT_FROM_DATA':'profit_from_data',
+    'PROFIT_TO_DATA':'profit_to_data',
+    'PROFIT_PAGE':'profit_page',
+    'PROFIT_PAGE_SIZE':'profit_page_size',
+    'PROFIT_KEYWORD':'profit_keyword',
+
     // 矿场模块的键名
     'CURRENT_POOL':'current_pool',//当前矿场的矿场ID
     'SELECT_MACHINE':'select_machine',//选择的矿机列表[]
@@ -48,6 +109,8 @@ const OPERATION = {
     'MENU_INFO':'menu_info',
     'PATH_INFO':'path_info',
     'POOL_INFO':'pool_info',
+    'DEVICE_INFO':'device_info',
+    'PROFIT_INFO':'profit_info',
     // redux 结构大模块键名
     'REGISTER_MODEL':'register_model',
     'LOGIN_MODEL':'login_model',
@@ -61,22 +124,45 @@ const OPERATION = {
     'SUCCESS_REGISTER':'success_register',//成功注册
     'LOGIN_OPERATION':'login_operation',//登录操作
     'LOGIN_SUCCESS':'login_success',//登录成功
+    'CHANGE_ADMIN_MODE':'change_admin_mode',//修改当前用户模式
     // 'SMS_LEFT_TIME':'sms_left_time',
-
     // 矿场模块操作
     //1:模块名常量 current_operation（确定位置）
-    'CREATE_POOL':'create_pool',//创建矿场
+    'CREATE_POOL':'create_pool',
+    'CREATE_POOL_ONE':'create_pool_one',//创建矿场
+    'CREATE_POOL_TWO':'create_pool_two',//创建矿场
+    'POOL_SET':'pool_set',//矿场设置弹框
+    'ADD_MINER':'add_miner',//添加矿机
+    'DELETE_MINER':'delete_miner',//移除矿机
+    'ADD_GROUP_MINER':'add_group_miner',//添加组内矿机
+    'DELETE_GROUP_MINER':'delete_group_miner',//添加组内矿机
+
+    'POOL_MAIN':'pool_main',//矿机主要
+    'BIND_MINER':'bind_miner',//移除矿机
+
     'POOL_OPERATION':'pool_operation',//矿场运维
+    'POOL_RENT':'pool_rent',//矿场租赁
     'POOL_PROFIT':'pool_profit',//矿场收益
     'ADD_POOL_GROUP':'add_pool_group',//添加分组
     'DEL_POOL_GROUP':'del_pool_group',//删除分组
     'POWER_POOL':'power_pool',//矿池算力
     'POWER_MACHINE':'power_machine',//矿机算力
     'SCREENING_CONDITIONS':'screening_conditions',//筛选条件
-    'ADVANCE_SEARCH':'advance_search',//高级搜索
+    'ADVANCE_SEARCH_ONE':'advance_search_one',//高级搜索1
+    'ADVANCE_SEARCH_TWO':'advance_search_two',//高级搜索2
+    'BILL_APPLY':'bill_apply',//订单申请
+    'ADD_GROUP':'add_group',//添加分组
+    'DEL_GROUP':'del_group',//删除分组
+
     //矿场模块操作常量
     'UPDATE_POOL_DATA':'update_pool_data',//更新矿场信息
+    'UPDATE_POOL_COIN':'update_pool_coin',//更新矿池信息
+    'SINGLE_POOL_DATA':'single_pool_data',//获取矿场信息
 
+    //矿机筛选相关
+    'ALL_DEVICE':'all_device',
+    'ONLINE_DEVICE':'online_device',
+    'OFFLINE_DEVICE':'offline_device',
 
     // 通用操作常量配置（确定操作）
     'NETWORK_CHECK':'network_check', //网络状态检查
@@ -88,7 +174,6 @@ const OPERATION = {
     'INDEX_MENU_2':'service',
     'INDEX_MENU_3':'pool',
     'INDEX_MENU_4':'user',
-
 
     // 次级目录second
     // 我的中的次级目录
@@ -129,4 +214,48 @@ const PATH = {
 }
 
 
-export {HOST,ACTION,OPERATION,PATH}
+
+const COIN = {
+    'YTA':'YTA',
+    'FIL':'FIL',
+    'LAMB':'LAMB',
+    'BHD':'BHD'
+}
+const YTASET = {
+    "DISK_SPACE":'disk_space',
+    "USER_MORTGAGE":'user_mortgage',
+    "MORTGAGE_BALANCE":'mortgage_balance',
+    "USER_MANAGE":'user_manage',
+    "AlIANCE_POOL_ID":'aliance_pool_id',
+    "MINING_ID":'mining_id',
+    "MORTGAGE_KEY":'mortgage_key',
+    "MANAGE_KEY":'manage_key',
+    "ALIANCE_POOL_KEY":'aliance_pool_key',
+    "NODE_COUNT":'node_count',
+    "PORT_FROM":'port_from',
+    "PORT_TO":'port_to',
+    "HOST_URI":'host_uri',
+    "ALIANCE_POOL_SPACE":'aliance_pool_space',
+}
+
+const FILSET = {
+    "MINING_ID":"mining_id",
+    "GAS_LIMIT":"gas_limit",
+    "GAS_PRICE":"gas_price",
+    "PRICE":"price",
+    "BLOCK":"block",
+    "MIN_INCOME":"min_income",
+}
+
+const BHDSET = {
+    "MINING_ID":"mining_id",
+    "GAS_LIMIT":"gas_limit",
+    "GAS_PRICE":"gas_price",
+    "PRICE":"price",
+    "BLOCK":"block",
+    "MIN_INCOME":"min_income",
+}
+
+
+
+export {HOST,ACTION,OPERATION,PATH,COIN,YTASET,FILSET,BHDSET}

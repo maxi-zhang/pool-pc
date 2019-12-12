@@ -4,7 +4,6 @@ import store from "../store";
 import {ACTION, OPERATION, PATH} from "./common/Config";
 import FrameCommon from './common/view/FrameCommon'
 import InsideCommon from './common/view/InsideCommon'
-import {checkUserToken} from "./common/Common";
 
 import Login from "./page/user/Login";
 import Register from "./page/user/Register";
@@ -13,7 +12,6 @@ export default class app extends React.Component {
     constructor(props){
         super(props);
         this.state = store.getState();
-        checkUserToken(this.state)
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }

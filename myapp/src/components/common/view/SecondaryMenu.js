@@ -1,7 +1,7 @@
 import React from 'react';
 import store from "../../../store";
 import {ACTION, OPERATION} from "../Config";
-import {changeMenuStatus,getUserPool} from "../model/PoolModel";
+import {changeMenuStatus,openPopupBox} from "../model/PoolModel";
 import {Icon} from "antd";
 
 export default class Index extends React.Component {
@@ -14,18 +14,16 @@ export default class Index extends React.Component {
         this.id = 'secondary-menu';
     }
     storeChange(){
-        let current = this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU];
         this.state = store.getState();
-        // 矿场模块每次进入刷新状态
-        if(current !== OPERATION.INDEX_MENU_3 && this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_3){
-            getUserPool(this.state);
-        }
         this.setState(this.state)
     }
     componentWillUnmount(){
         this.setState = (state, callback) => {
             return;
         }
+    }
+    createPool(){
+        openPopupBox(OPERATION.CREATE_POOL_ONE);
     }
     showMenu(menu){
         changeMenuStatus(ACTION.SECONDARY_MENU,menu,this.state)
@@ -69,13 +67,13 @@ export default class Index extends React.Component {
                 }
             });
         }else{
-             PoolItems = <div></div>;
+             PoolItems = <React.Fragment></React.Fragment>;
         }
 
         return (
             <div id={this.id}>
                 {this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_3?
-                    <div className={"menu-detail create-pool"}><p><Icon type="plus-circle" />&nbsp;&nbsp;创建矿场</p></div>:
+                    <div onClick={this.createPool.bind(this)} className={"menu-detail create-pool"}><p><Icon type="plus-circle" />&nbsp;&nbsp;创建矿场</p></div>:
                     <div></div>
                 }
                 {ListItems}

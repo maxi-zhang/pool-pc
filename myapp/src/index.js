@@ -11,6 +11,7 @@ import Index from './components/Index'
 import * as serviceWorker from './serviceWorker';
 
 import Initialize from "./components/common/view/Initialize"
+import App from './App'
 
 
 // ReactDOM.render(<Router />, document.getElementById('root'));
@@ -18,6 +19,7 @@ ReactDOM.render(<Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
         <Initialize />
         <Index />
+        {/*<App />*/}
     </PersistGate>
 </Provider>, document.getElementById('root'));
 

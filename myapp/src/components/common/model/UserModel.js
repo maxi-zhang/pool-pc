@@ -1,9 +1,10 @@
 import {SUBMIT_INPUT, CHANGE_INPUT, CHANGE_UUID, CHANGE_STORE} from "../../../store/config";
 import store from "../../../store";
 import Axios from "axios";
-import {checkPassword, checkPhoneNumber, checkQrcodeNumber,makeClientCode} from "../Common";
+import {checkPassword, checkPhoneNumber, checkQrcodeNumber, checkUserToken, makeClientCode} from "../Common";
 import {ACTION, OPERATION, PATH} from "../Config";
 import { message } from 'antd';
+import qs from "qs";
 
 // 验证注册信息
 let checkRegisterInfo = (state,name,model) =>{
@@ -218,6 +219,28 @@ let loginAccount = (state,name) => {
 
 }
 
+// 修改当前用户模式（管理员，普通用户
+let changeAdminStatus = (status) => {
+    let info = store.getState()
+    Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+    Axios.post('/user/setType', qs.stringify(
+        {
+            'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+            'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
+            'type':status
+        })
+    ).then(function(data){
+        if(data.data.code === 0){
+            info[OPERATION.USER_INFO][ACTION.ADMIN_TYPE] = status
+            const action = {
+                type:CHANGE_STORE,
+                info:info
+            }
+            store.dispatch(action)
+        }
+    });
+}
+
 // 修改验证码UUID
 let changeUuid = () => {
     const action = {
@@ -260,8 +283,17 @@ let changeCommonStatus = (data,name='') =>{
         }else if(name === OPERATION.LOGIN_SUCCESS){
             info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN] = data.data.data.token;
             info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID] = data.data.data['user_id'];
+            checkUserToken(info)
+            return
         }else if(name === OPERATION.UPDATE_TOKEN){
-
+            info[OPERATION.USER_INFO][ACTION.ADMIN_ACCOUNT] = data.data.data.account;
+            info[OPERATION.USER_INFO][ACTION.ADMIN_USER_NAME] = data.data.data['name'];
+            info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ICON] = data.data.data['icon'];
+            info[OPERATION.USER_INFO][ACTION.ADMIN_TYPE] = data.data.data['type'];
+            info[OPERATION.USER_INFO][ACTION.TENANT_ID] = data.data.data['tenant_id'];
+            info[OPERATION.USER_INFO][ACTION.CAN_CHANGE_TYPE] = data.data.data['can_change_type'];
+            info[OPERATION.USER_INFO][ACTION.CAN_CHANGE_TENANT] = data.data.data['can_change_tenant'];
+            info[OPERATION.USER_INFO][ACTION.TENANT_PERMISSION] = data.data.data['tenant_permission'];
         }else{
 
         }
@@ -395,4 +427,4 @@ let littleDispatch = (info) =>{
 
 
 
-export {checkRegisterInfo,changeInputValue,changeUuid,checkSmsCode,timeCountDown,registerAccount,locationToLogin,loginAccount,changeCommonStatus,clearReduxData};
+export {checkRegisterInfo,changeInputValue,changeUuid,checkSmsCode,timeCountDown,registerAccount,locationToLogin,loginAccount,changeCommonStatus,clearReduxData,changeAdminStatus};
