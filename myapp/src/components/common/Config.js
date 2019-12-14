@@ -70,15 +70,19 @@ const ACTION = {
     'IF_IS_RENT':'if_is_rent',
     'IF_IS_DEFAULT':'if_is_default',
     'CURRENT_COIN':'current_coin',
+    'CURRENT_DEVICE':'current_device',
+    'CURRENT_GROUP':'current_group',
     'ADD_GROUP':'add_group',
     'DEL_GROUP':'del_group',
     'CHOOSE_DEL_GROUP':'choose_del_group',
 
+    'IS_ONLINE':'is_online',
     'IF_CLEAR':'if_clear',
     'UNGROUP_INFO':'ungroup_info',
     'UNGROUP_DEVICE':'ungroup_device',
     'DEVICE_SELECT':'device_select',
     'DEVICE_SCREEN':'device_screen',
+    'MY_DEVICE':'my_device',
     'GROUP_INFO':'group_info',
     // 收益相关键值
     'PROFIT_DATA':'profit_data',
@@ -88,6 +92,12 @@ const ACTION = {
     'PROFIT_PAGE':'profit_page',
     'PROFIT_PAGE_SIZE':'profit_page_size',
     'PROFIT_KEYWORD':'profit_keyword',
+    'IS_ENTRUST':'is_entrust',  //是否委托：1委托2未委托
+    'MY_ENTRUST':'my_entrust',//我的委托
+    'ENTRUST_TO_ME':'entrust_to_me',//委托给我
+    'VIRTUAL_NODE':'virtual_node',//虚拟节点
+
+
 
     // 矿场模块的键名
     'CURRENT_POOL':'current_pool',//当前矿场的矿场ID
@@ -111,6 +121,7 @@ const OPERATION = {
     'POOL_INFO':'pool_info',
     'DEVICE_INFO':'device_info',
     'PROFIT_INFO':'profit_info',
+    'SERVER_INFO':'server_info',
     // redux 结构大模块键名
     'REGISTER_MODEL':'register_model',
     'LOGIN_MODEL':'login_model',
@@ -136,9 +147,12 @@ const OPERATION = {
     'DELETE_MINER':'delete_miner',//移除矿机
     'ADD_GROUP_MINER':'add_group_miner',//添加组内矿机
     'DELETE_GROUP_MINER':'delete_group_miner',//添加组内矿机
+    'DEVICE_INDEX':'device_index',//矿机首页弹出
 
     'POOL_MAIN':'pool_main',//矿机主要
     'BIND_MINER':'bind_miner',//移除矿机
+
+    "TRUST_ADD":"trust_add",//添加设备委托
 
     'POOL_OPERATION':'pool_operation',//矿场运维
     'POOL_RENT':'pool_rent',//矿场租赁
@@ -175,6 +189,11 @@ const OPERATION = {
     'INDEX_MENU_3':'pool',
     'INDEX_MENU_4':'user',
 
+    //虚拟节点目录
+    'MY_NODE':'my_node',//我的节点
+    'APPLY_LIST':'apply_list',//申请列表
+    'NODE_BUY':'node_buy',//节点租赁
+
     // 次级目录second
     // 我的中的次级目录
     'SECOND_MENU_1':'wallet_set', //钱包设置
@@ -188,6 +207,11 @@ const OPERATION = {
     'SECOND_MENU_8':'node_income',//节点收益
     'SECOND_MENU_9':'warning_report', //监控报警
     'SECOND_MENU_10':'work_order', //工单
+    'SECOND_MENU_12':'virtual_user', //虚拟主机用户
+    'SECOND_MENU_13':'my_users', //我的用户
+    'SECOND_MENU_14':'link_set_inner', //抽成设置
+
+
     //创建矿场中的次级目录
     'SECOND_MENU_11':'create_pool',//创建矿场
 

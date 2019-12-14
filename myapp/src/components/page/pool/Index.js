@@ -24,6 +24,10 @@ import AdvanceSearch from  "./AdvanceSearch"
 import ProfitPanel from "./ProfitPanel"
 import IncomeDetail from "./IncomeDetail"
 
+import DeviceIndex from "../device/"
+
+
+
 export default class app extends React.Component {
     constructor(props){
         super(props);
@@ -47,10 +51,10 @@ export default class app extends React.Component {
             <div className={"inner-common"}>
                 {exist?
                     <React.Fragment>
-                        <PoolInsideTop/>
                         {/* 租赁模块的页面  */}
                         {this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_RENT?
                             <React.Fragment>
+                                <PoolInsideTop/>
                                 <RentTotal />
                                 <RentDetail />
                             </React.Fragment> :<React.Fragment></React.Fragment>
@@ -58,6 +62,7 @@ export default class app extends React.Component {
                         {/* 收益模块的页面  */}
                         {this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_PROFIT?
                             <React.Fragment>
+                                <PoolInsideTop/>
                                 <ProfitPanel />
                                 {(this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.ADVANCE_SEARCH_ONE||this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.ADVANCE_SEARCH_TWO ) ?
                                     <IncomeTotal />:<React.Fragment></React.Fragment>
@@ -68,6 +73,7 @@ export default class app extends React.Component {
                         {/* 运维模块的页面  */}
                         {(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]] === OPERATION.POOL_OPERATION || isEmpty(this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]]))?
                             <React.Fragment>
+                                <PoolInsideTop/>
                                 <PowerTotal />
                                 <GroupList />
                             </React.Fragment> :<React.Fragment></React.Fragment>
@@ -107,6 +113,9 @@ export default class app extends React.Component {
                         }
                         {this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.DELETE_GROUP_MINER?
                             <DeleteGroupMiner/>:<React.Fragment></React.Fragment>
+                        }
+                        {this.state[OPERATION.PATH_INFO][ACTION.CURRENT_OPEN] === OPERATION.DEVICE_INDEX?
+                            <DeviceIndex/>:<React.Fragment></React.Fragment>
                         }
                     </React.Fragment>:<React.Fragment></React.Fragment>
                 }

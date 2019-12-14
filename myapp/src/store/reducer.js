@@ -58,10 +58,11 @@ const defaultState = {
         [ACTION.INDEX_MENU]:OPERATION.INDEX_MENU_1,
         [ACTION.SECONDARY_MENU]:{
             [OPERATION.INDEX_MENU_1]:'',
-            [OPERATION.INDEX_MENU_2]:'',
+            [OPERATION.INDEX_MENU_2]:OPERATION.SECOND_MENU_4,
             [OPERATION.INDEX_MENU_3]:'',
             [OPERATION.INDEX_MENU_4]:'',
         },
+        [ACTION.CURRENT_GROUP]:{},
     },
     [OPERATION.POOL_INFO]:{
         [OPERATION.CREATE_POOL]:{
@@ -162,6 +163,26 @@ const defaultState = {
             [ACTION.PROFIT_KEYWORD]:{},
         },
     },
+    [OPERATION.SERVER_INFO]:{
+        [ACTION.DEVICE_SCREEN]:{
+            [ACTION.IS_ONLINE]:'all',
+            [ACTION.ORDER_CHOOSE]:'',
+            [ACTION.IS_ENTRUST]:0,
+            [ACTION.CURRENT_OPEN]:'',
+            [ACTION.PROFIT_FROM_DATA]:{},
+            [ACTION.PROFIT_TO_DATA]:{},
+            [ACTION.PROFIT_PAGE]:{},
+            [ACTION.PROFIT_PAGE_SIZE]:{},
+            [ACTION.PROFIT_KEYWORD]:'',
+        },
+        [ACTION.VIRTUAL_NODE]:{
+            [ACTION.CURRENT_OPEN]:OPERATION.MY_NODE,
+        },
+        [ACTION.MY_DEVICE]:{},
+        [ACTION.CURRENT_DEVICE]:'',
+        [ACTION.MY_ENTRUST]:'',
+        [ACTION.ENTRUST_TO_ME]:'',
+    }
 }
 
 export default (state = defaultState,action)=>{

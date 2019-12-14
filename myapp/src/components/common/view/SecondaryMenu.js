@@ -34,14 +34,17 @@ export default class Index extends React.Component {
             this.id = 'secondary-none';
         }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_2){
             this.id = 'secondary-menu';
-            this.menu[OPERATION.SECOND_MENU_3] = '员工管理';
             this.menu[OPERATION.SECOND_MENU_4] = '我的设备';
             this.menu[OPERATION.SECOND_MENU_5] = '我的委托';
             this.menu[OPERATION.SECOND_MENU_6] = '委托给我';
+            this.menu[OPERATION.SECOND_MENU_3] = '员工管理';
             this.menu[OPERATION.SECOND_MENU_7] = '虚拟节点';
             this.menu[OPERATION.SECOND_MENU_8] = '节点收益';
             this.menu[OPERATION.SECOND_MENU_9] = '监控报警';
-            this.menu[OPERATION.SECOND_MENU_10] = '工单';
+            this.menu[OPERATION.SECOND_MENU_10] = '我的工单';
+            this.menu[OPERATION.SECOND_MENU_12] = '虚拟主机用户';
+            this.menu[OPERATION.SECOND_MENU_13] = '我的用户';
+            this.menu[OPERATION.SECOND_MENU_14] = '抽成设置';
         }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_3){
             this.id = 'secondary-menu';
         }else if(this.state[OPERATION.MENU_INFO][ACTION.INDEX_MENU] === OPERATION.INDEX_MENU_4){
