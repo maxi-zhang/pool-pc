@@ -1,6 +1,6 @@
 import React from 'react';
 import store from "../../../store";
-import {ACTION, OPERATION} from "../../common/Config";
+import {ACTION, COIN, OPERATION} from "../../common/Config";
 import SelfIcon from "../../../img/self-icon.jpg"
 import {Icon, Dropdown, Menu, Button, DatePicker, Input, Modal, message, Checkbox} from "antd";
 import {getDiskPower, getTimePeriod, isEmpty, todayFormat} from "../../common/Common";
@@ -16,6 +16,8 @@ import MyEntrust from "./MyEntrust"
 import EntrustToMe from "./EntrustToMe"
 import MyEntrustDevice from "./MyEntrustDevice"
 import EntrustToMeDevice from "./EntrustToMeDevice"
+import Axios from "axios";
+import qs from "qs";
 
 
 export default class app extends React.Component {
@@ -236,6 +238,10 @@ class MyNode extends  React.Component{
     constructor(props){
         super(props);
         this.state = store.getState();
+        this.info = {};
+        let page = 1;
+        let size = 100;
+        this.getMyNode(page,size);
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -248,9 +254,50 @@ class MyNode extends  React.Component{
             return
         }
     }
+    getMyNode(page,size){
+        let _this = this
+        Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        Axios.post('/pool/poolLease/List', qs.stringify(
+            {
+                'user_id': this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                'token': this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
+                'show_user_id':this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                'page':page,
+                'page_size':size
+            })
+        ).then(function(data){
+            console.log(data)
+            if(data.data.code === 0){
+                _this.info = data.data.data;
+                _this.setState(_this);
+            }
+        })
+    }
     render() {
+        const listItems = (this.info.data)?Object.keys(this.info.data).map((key)=> {
+            return(
+                <React.Fragment>
+                    {this.info.data[key]['status'] === 5?
+                        <div className={"virtual-node-list list"}>
+                            <p className={"text1"}>{this.info.data[key]['name']}</p>
+                            <p className={"text2"}>{this.info.data[key]['mining_type']}</p>
+                            <p className={"text3"}>{this.info.data[key]['income']}{this.info.data[key]['mining_type']}</p>
+                            <p className={"text4"}>{this.info.data[key]['node_count']}个</p>
+                            <p className={"text5"}>
+                                {this.info.data[key]['remaining_date'] > 0?
+                                    <React.Fragment>挖矿中，还剩{this.info.data[key]['remaining_date']}天</React.Fragment>:
+                                    <React.Fragment>已到期</React.Fragment>
+                                }
+                            </p>
+                        </div>:<React.Fragment></React.Fragment>
+                    }
+                </React.Fragment>
+            )
+        }):<React.Fragment></React.Fragment>
+
         return(
-            <div className={"border"}>
+            <div className={"border"} >
+                {this.page}
                 <div className={"virtual-node-title topic"}>
                     <p className={"tip1"}>矿场名</p>
                     <p className={"tip2"}>币种</p>
@@ -258,13 +305,7 @@ class MyNode extends  React.Component{
                     <p className={"tip4"}>节点数</p>
                     <p className={"tip5"}>状态</p>
                 </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>100YTA</p>
-                    <p className={"text4"}>60个</p>
-                    <p className={"text5"}>挖矿中，还剩28天</p>
-                </div>
+                {listItems}
             </div>
         )
     }
@@ -275,6 +316,10 @@ class ApplyList extends  React.Component{
     constructor(props){
         super(props);
         this.state = store.getState();
+        this.info = {};
+        let page = 1;
+        let size = 100;
+        this.getMyNode(page,size);
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
     }
@@ -287,7 +332,56 @@ class ApplyList extends  React.Component{
             return
         }
     }
+    getMyNode(page,size){
+        let _this = this
+        Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        Axios.post('/pool/poolLease/List', qs.stringify(
+            {
+                'user_id': this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                'token': this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
+                'show_user_id':this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                'page':page,
+                'page_size':size
+            })
+        ).then(function(data){
+            console.log(data)
+            if(data.data.code === 0){
+                _this.info = data.data.data;
+                _this.setState(_this);
+            }
+        })
+    }
     render() {
+        const listItems = (this.info.data)?Object.keys(this.info.data).map((key)=> {
+            return(
+                <React.Fragment>
+                    <div className={"virtual-node-list list"}>
+                        <p className={"text1"}>{this.info.data[key]['name']}</p>
+                        <p className={"text2"}>{this.info.data[key]['mining_type']}</p>
+                        <p className={"text3"}>{this.info.data[key]['price']}CNY/个/月</p>
+                        <p className={"text4"}>{this.info.data[key]['node_count']}个</p>
+                        {this.info.data[key]['status'] == 1 ?
+                            <React.Fragment>
+                                <p style={{color:"#5786D2"}} className={"text5"}>申请租赁中（{this.info.data[key]['node_count']}）</p>
+                            </React.Fragment>:
+                            <React.Fragment></React.Fragment>
+                        }
+                        {this.info.data[key]['status'] == 3 ?
+                            <React.Fragment>
+                                <p style={{color:"#CC0000"}}  className={"text5"}>申请被拒绝（{this.info.data[key]['node_count']}）</p>
+                            </React.Fragment>:
+                            <React.Fragment></React.Fragment>
+                        }
+                        {this.info.data[key]['status'] == 5 ?
+                            <React.Fragment>
+                                <p style={{color:"#5786D2"}}  className={"text5"}>申请已通过（{this.info.data[key]['node_count']}）</p>
+                            </React.Fragment>:
+                            <React.Fragment></React.Fragment>
+                        }
+                    </div>
+                </React.Fragment>
+            )
+        }):<React.Fragment></React.Fragment>
         return(
             <div className={"border"}>
                 <div className={"virtual-node-title topic"}>
@@ -297,27 +391,7 @@ class ApplyList extends  React.Component{
                     <p className={"tip4"}>节点数</p>
                     <p className={"tip5"}>状态</p>
                 </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#5786D2"}} className={"text5"}>申请租赁中（15个）</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#CC0000"}}  className={"text5"}>申请租赁中（15个）</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#00B362"}}  className={"text5"}>申请租赁中（15个）</p>
-                </div>
+                {listItems}
             </div>
         )
     }
@@ -330,6 +404,10 @@ class NodeRent extends  React.Component{
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
+        this.info = {};
+        this.pid = 0;
+        this.left = 0;
+        this.getRentNode();
     }
     storeChange(){
         this.state = store.getState();
@@ -340,26 +418,78 @@ class NodeRent extends  React.Component{
             return
         }
     }
-    render() {
-        return(
-            <div className={"border"}>
-                <div className={"virtual-node-title topic"}>
-                    <p className={"tip1"}>矿场名</p>
-                    <p className={"tip2"}>币种</p>
-                    <p className={"tip3"}>价格</p>
-                    <p className={"tip4"}>节点数</p>
-                    <p className={"tip5"}>状态</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#5786D2"}} className={"text5"}>申请租赁中（15个）</p>
-                    <input type={"button"} value={"租"} />
-                </div>
+    getRentNode(){
+        let _this = this
+        Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        Axios.post('/pool/pool/leaseList', qs.stringify(
+            {
+                'user_id': this.state[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
+                'token': this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
+            })
+        ).then(function(data){
+            console.log(data)
+            if(data.data.code === 0){
+                _this.info = data.data.data;
+                _this.setState(_this);
+            }
+        })
+    }
+    openRentDetail(pid,left){
+        this.pid = pid;
+        this.left = left;
+        this.setState(this.state)
+    }
+    closeCreateArea(){
 
-            </div>
+    }
+    render() {
+        const listItems = (this.info)?Object.keys(this.info).map((key)=> {
+            return(
+                <React.Fragment key={key}>
+                    <div className={"virtual-node-list list"}>
+                        <p className={"text1"}>{this.info[key]['name']}</p>
+                        <p className={"text2"}>{COIN.YTA}</p>
+                        <p className={"text3"}>{this.info[key]['price']}CNY/个/月</p>
+                        <p className={"text4"}>{this.info[key]['node_all']}个</p>
+                        {this.info[key]['node_left']>0?
+                            <p style={{color:"#5786D2"}} className={"text5"}>{this.info[key]['node_left']}个</p>:
+                            <p style={{color:"#CC0000"}} className={"text5"}>0个</p>
+                        }
+                        {this.info[key]['node_left']>0?
+                            <input type={"button"} value={"租"} onClick={this.openRentDetail.bind(this,this.info[key]['up_id'],this.info[key]['node_left'])} />:<React.Fragment></React.Fragment>
+                        }
+                    </div>
+                </React.Fragment>
+        )
+        }):<React.Fragment></React.Fragment>
+        return(
+            <React.Fragment>
+                <div className={"border"}>
+                    <div className={"virtual-node-title topic"}>
+                        <p className={"tip1"}>矿场名</p>
+                        <p className={"tip2"}>币种</p>
+                        <p className={"tip3"}>价格</p>
+                        <p className={"tip4"}>节点数</p>
+                        <p className={"tip5"}>可租节点</p>
+                    </div>
+                    {listItems}
+                </div>
+                {this.pid > 0?
+                    <React.Fragment>
+                        <div className={"rent-append-block"} >
+                            <h5>节点租赁</h5>
+                            <Icon onClick={this.closeCreateArea.bind(this)} type="close" style={{position:"absolute",top:"18px",left:"521px",fontSize:"12px"}} />
+                            <div className={"block"}>
+
+                            </div>
+                            <h5 className={"tip1"}>总价：</h5>
+                            <h5 className={"tip2"}>100*6*10=600CNY</h5>
+                            <input type={"button"} className={"confirm-button"} value={"确认租赁"}/>
+                        </div>
+                    </React.Fragment>:
+                    <React.Fragment></React.Fragment>
+                }
+            </React.Fragment>
         )
     }
 }
@@ -742,7 +872,7 @@ class Commission extends React.Component{
         return(
             <React.Fragment>
                 <div className={"commission-banner banner"}>
-                    `                           <h5>抽成设置</h5>
+                    <h5>抽成设置</h5>
                 </div>
                 <div className={"border"} style={{marginTop:"10px"}}>
                     <div className={"commission-list list"}>

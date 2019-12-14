@@ -247,7 +247,5 @@ let virtualMenuTitle = (title) =>{
 }
 
 
-
-
 export {virtualMenuTitle,backCommon,chooseUserEntrust,addEnTrust,closeOpenArea,unbindHardware,cancelTrusteeship,getMyDevice,minerScreen,
     changePickTime,changeEntrust,operOpenArea}
