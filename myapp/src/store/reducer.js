@@ -53,6 +53,7 @@ const defaultState = {
         [ACTION.CURRENT_OPERATION]:'',
         [ACTION.CURRENT_PATH]:'',
         [ACTION.CURRENT_OPEN]:'',
+        [ACTION.CURRENT_DEVICE]:'',
     },
     [OPERATION.MENU_INFO]:{
         [ACTION.INDEX_MENU]:OPERATION.INDEX_MENU_1,
@@ -62,7 +63,7 @@ const defaultState = {
             [OPERATION.INDEX_MENU_3]:'',
             [OPERATION.INDEX_MENU_4]:'',
         },
-        [ACTION.CURRENT_GROUP]:{},
+        [ACTION.DEVICE_MENU]:OPERATION.DEVICE_MENU_1,
     },
     [OPERATION.POOL_INFO]:{
         [OPERATION.CREATE_POOL]:{

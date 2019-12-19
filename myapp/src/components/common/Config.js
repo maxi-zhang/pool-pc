@@ -30,6 +30,7 @@ const ACTION = {
     'UUID': 'uuid',//产生图片验证码所用uuid
     'INDEX_MENU':'index_menu',//首页的目录位置
     'SECONDARY_MENU':'secondary_menu',//次级目录
+    'DEVICE_MENU':'device_menu',//矿机页面目录
 
     // 'CHECK_PIC_QRCODE': 'check_pic_qrcode',
     'MOBILE_NUMBER':'mobile_number',
@@ -211,6 +212,13 @@ const OPERATION = {
     'SECOND_MENU_13':'my_users', //我的用户
     'SECOND_MENU_14':'link_set_inner', //抽成设置
 
+    // 矿机设备目录
+    'DEVICE_MENU_1':'system_info',//系统信息
+    'DEVICE_MENU_2':'system_profit',//系统性能
+    'DEVICE_MENU_3':'disk_manage',//磁盘管理
+    'DEVICE_MENU_4':'network_set',//网络配置
+    'DEVICE_MENU_5':'miner_mortgage',//矿机质押
+    'DEVICE_MENU_6':'miner_catalog',//选择挖矿目录
 
     //创建矿场中的次级目录
     'SECOND_MENU_11':'create_pool',//创建矿场
@@ -234,10 +242,7 @@ const PATH = {
     'USER_SET':'userSet', //用户设置页
 
     'SERVER_INDEX':'/serverPage/index', //服务台首页
-
 }
-
-
 
 const COIN = {
     'YTA':'YTA',

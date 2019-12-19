@@ -2,7 +2,13 @@ import React from "react";
 import store from "../../../store";
 import {Dropdown, Icon, Menu, message} from "antd";
 import {ACTION, OPERATION} from "../../common/Config";
-import {statusScreenMiner, openRemoveDiagnosis, changeIndex} from "../../common/model/PoolModel";
+import {
+    statusScreenMiner,
+    openRemoveDiagnosis,
+    changeIndex,
+    setPoolWallet,
+    openPopupBox
+} from "../../common/model/PoolModel";
 
 export default class ControlPanel extends React.Component{
     constructor(props){
@@ -52,7 +58,13 @@ export default class ControlPanel extends React.Component{
     changeIndex(module){
         changeIndex(module)
     }
-
+    openPopupBox(path){
+        if(path === OPERATION.POOL_SET){
+            setPoolWallet();
+        }else{
+            openPopupBox(path);
+        }
+    }
     render() {
         // 当前的矿场ID
         const pool = this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]
@@ -60,6 +72,9 @@ export default class ControlPanel extends React.Component{
         const pid = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][pool]
 
         const group = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.DEL_GROUP][pool]
+
+        const gid = this.state[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX]
+
 
         let name = '默认分组';
         if(!isNaN(pid)){
@@ -88,11 +103,68 @@ export default class ControlPanel extends React.Component{
                 </Menu.Item>
             </Menu>
         );
+        const menu1 = (
+            <Menu>
+                {(gid[pool] === "default") ?
+                    <React.Fragment></React.Fragment> :
+                    <Menu.Item>
+                        {!isNaN(gid[pool]) ?
+                            <a onClick={this.openPopupBox.bind(this, OPERATION.ADD_GROUP_MINER)}
+                               rel="noopener noreferrer" href="/#/">
+                                添加矿工
+                            </a> :
+                            <a onClick={this.openPopupBox.bind(this, OPERATION.ADD_MINER)} rel="noopener noreferrer"
+                               href="/#/">
+                                添加矿工
+                            </a>
+                        }
+                    </Menu.Item>
+                }
+                {(gid[pool] === "default") ?
+                    <React.Fragment></React.Fragment> :
+                    <Menu.Item>
+                        {!isNaN(gid[pool])?
+                            <a onClick={this.openPopupBox.bind(this,OPERATION.DELETE_GROUP_MINER)} rel="noopener noreferrer" href="/#/">
+                                移除矿工
+                            </a>:<a onClick={this.openPopupBox.bind(this,OPERATION.DELETE_MINER)} rel="noopener noreferrer" href="/#/">
+                                移除矿工
+                            </a>
+                        }
+                    </Menu.Item>
+                }
+                <Menu.Item>
+                    <a rel="noopener noreferrer" href="/#/">
+                        excel导入矿机
+                    </a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a rel="noopener noreferrer" href="/#/">
+                        导出excel模板
+                    </a>
+                </Menu.Item>
+                <Menu.Item>
+                    <a rel="noopener noreferrer" href="/#/">
+                        订单管理
+                    </a>
+                </Menu.Item>
+            </Menu>
+        );
+
+
         return(
             <React.Fragment>
                 <div className={"pool-group-top banner"}>
                     <h5>{name}</h5>
                     <h3 onClick={this.changeIndex.bind(this,OPERATION.POOL_OPERATION)} className={"back"}></h3>
+                    <Dropdown placement={"bottomRight"} overlayClassName={"more-operation"} overlay={menu1} >
+                        <div className={"operation-block"}>
+                            <a className="ant-dropdown-link" href="#">
+                                <div className={"more-operation"}>
+                                    <Icon type="ellipsis" />
+                                </div>
+                            </a>
+                        </div>
+                    </Dropdown>
                 </div>
                 <div className={"control-panel"}>
                     <div className={"status"}>

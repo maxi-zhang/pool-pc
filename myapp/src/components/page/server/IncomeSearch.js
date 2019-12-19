@@ -1,8 +1,7 @@
 import React from "react";
 import store from "../../../store";
-import {changeEntrust, changePickTime, getMyDevice, minerScreen, operOpenArea} from "../../common/model/ServerModel";
 import {ACTION, OPERATION} from "../../common/Config";
-import {getTimePeriod, isEmpty, todayFormat} from "../../common/Common";
+import {isEmpty, todayFormat} from "../../common/Common";
 import {DatePicker, Icon, Input} from "antd";
 import moment from "moment";
 
@@ -12,6 +11,7 @@ export default class AdvanceSearch extends React.Component{
         this.state = store.getState();
         this.storeChange = this.storeChange.bind(this);
         store.subscribe(this.storeChange);
+        this.on = this.props.on
     }
     storeChange(){
         this.state = store.getState();
@@ -23,31 +23,27 @@ export default class AdvanceSearch extends React.Component{
         }
     }
     closeCreateArea(){
-        operOpenArea('')
+        this.props.close();
     }
     searchProfit(){
-        getMyDevice()
+        this.props.get();
     }
     changeInput(e){
-        minerScreen(e.target.value,[ACTION.PROFIT_KEYWORD])
-    }
-    changeEntrust(e){
-        changeEntrust(e)
+        this.props.time(3,"",e.target.value)
     }
     changeTime(choose,b,value){
         this.on = 0;
         this.setState(this.state)
         if(choose === 1){
-            changePickTime('from',false,value)
+            this.props.time(4,"",value)
         }else if(choose === 2){
-            changePickTime('to',false,value)
+            this.props.time(5,"",value)
         }
     }
     changeTimePeriod(value){
         this.on = value;
         this.setState(this.state)
-        changePickTime('from',false,getTimePeriod(this.on)[0])
-        changePickTime('to',false,getTimePeriod(this.on)[1])
+        this.props.time(2,"",this.on)
     }
     render() {
         const pid = this.state[OPERATION.MENU_INFO][ACTION.SECONDARY_MENU][OPERATION.INDEX_MENU_3]
@@ -58,7 +54,7 @@ export default class AdvanceSearch extends React.Component{
                 <div className={"advance-search"}>
                     <h5>高级搜索</h5>
                     <Icon onClick={this.closeCreateArea.bind(this)} type="close" style={{position:"absolute",top:"18px",left:"386px",fontSize:"12px"}} />
-                    <Input value={this.state[OPERATION.SERVER_INFO][ACTION.DEVICE_SCREEN][ACTION.PROFIT_KEYWORD]} onChange={this.changeInput.bind(this)} className={"search"} placeholder="请输入名称/地址等关键字" />
+                    <Input value={this.props['keyword']} onChange={this.changeInput.bind(this)} className={"search"} placeholder="请输入名称/地址等关键字" />
                     {this.on === 1?
                         <button onClick={this.changeTimePeriod.bind(this,1)} className={"but1 on"}>本月</button>:
                         <button onClick={this.changeTimePeriod.bind(this,1)}  className={"but1"}>本月</button>
@@ -75,21 +71,17 @@ export default class AdvanceSearch extends React.Component{
                         <button onClick={this.changeTimePeriod.bind(this,4)} className={"but4 on"}>去年</button>:
                         <button onClick={this.changeTimePeriod.bind(this,4)} className={"but4"}>去年</button>
                     }
-                    {this.state[OPERATION.SERVER_INFO][ACTION.DEVICE_SCREEN][ACTION.IS_ENTRUST] === 1?
-                        <button onClick={this.changeEntrust.bind(this,1)} className={"but5 on"}>委托</button>:
-                        <button onClick={this.changeEntrust.bind(this,1)} className={"but5"}>委托</button>
-                    }
-                    {this.state[OPERATION.SERVER_INFO][ACTION.DEVICE_SCREEN][ACTION.IS_ENTRUST] === 2 ?
-                        <button onClick={this.changeEntrust.bind(this, 2)} className={"but6 on"}>未委托</button> :
-                        <button onClick={this.changeEntrust.bind(this, 2)} className={"but6"}>未委托</button>
-                    }
+
+                    <button style={{display:"none"}} className={"but5"}>委托</button>
+                    <button style={{display:"none"}} className={"but6"}>未委托</button>
+
                     {isEmpty(this.state[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pid])?
-                        <DatePicker onChange={this.changeTime.bind(this,1)} className={"date date1"} defaultValue={moment(todayFormat(),dateFormat)} placeholder="开始日期"  />:
-                        <DatePicker onChange={this.changeTime.bind(this,1)} className={"date date1"} defaultValue={moment(this.state[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_FROM_DATA][pid],dateFormat)} placeholder="开始日期"  />
+                        <DatePicker onChange={this.changeTime.bind(this,1)} className={"date date1"} placeholder="开始日期"  />:
+                        <DatePicker onChange={this.changeTime.bind(this,1)} className={"date date1"} placeholder="开始日期"  />
                     }
                     {isEmpty(this.state[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pid])?
-                        <DatePicker onChange={this.changeTime.bind(this,2)} className={"date date2"} defaultValue={moment(todayFormat(),dateFormat)} placeholder="结束日期"  />:
-                        <DatePicker onChange={this.changeTime.bind(this,2)} className={"date date2"} defaultValue={moment(this.state[OPERATION.PROFIT_INFO][ACTION.PROFIT_CONDITION][ACTION.PROFIT_TO_DATA][pid],dateFormat)} placeholder="开始日期"  />
+                        <DatePicker onChange={this.changeTime.bind(this,2)} className={"date date2"} placeholder="结束日期"  />:
+                        <DatePicker onChange={this.changeTime.bind(this,2)} className={"date date2"} placeholder="开始日期"  />
                     }
                     <div className={"hr"}></div>
                     <input onClick={this.searchProfit.bind(this)}  className={"submit"} type={"button"} value={"确定并开始搜索"} />

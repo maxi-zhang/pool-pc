@@ -1013,7 +1013,7 @@ let getCanAddMiner = () =>{
             'user_id': info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'token': info[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             'device_user_id':-1,
-            'trust_user_id':-1,
+            'trust_user_id':(info[OPERATION.USER_INFO][ACTION.ADMIN_TYPE]===5)?-1:info[OPERATION.USER_INFO][ACTION.ADMIN_USER_ID],
             'up_id':0,
             'group_id':-1,
             'is_trusteeship':-1,
@@ -1099,9 +1099,9 @@ let addGroupPoolMiner = () =>{
     // 当前的GROUP ID
     const gid = info[OPERATION.POOL_INFO][OPERATION.POOL_MAIN][ACTION.POOL_INDEX][pool]
     // can add模块
-    const canAdd = info[OPERATION.POOL_INFO][OPERATION.ADD_MINER][ACTION.GROUP_CAN_ADD_MINER]
+    const canAdd = info[OPERATION.POOL_INFO][OPERATION.ADD_MINER][ACTION.CHOOSE_CAN_ADD]
 
-    for(let i in canAdd[gid]){
+    for(let i in canAdd){
         Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
         Axios.post('/pool/poolGroup/addDevice/', qs.stringify(
             {
@@ -1112,7 +1112,7 @@ let addGroupPoolMiner = () =>{
             })
         ).then(function(data){
             if(data.data.code === 0){
-                if(i == (canAdd[gid].length -1)){
+                if(i == (canAdd.length -1)){
                     getUngroupInfo()
                     delPoolGroupData()
                     getPoolInfo()

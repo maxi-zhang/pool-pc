@@ -1,14 +1,16 @@
 import React from 'react';
 import store from "../../../store";
-import {ACTION, OPERATION} from "../../common/Config";
+import {ACTION, COIN, OPERATION} from "../../common/Config";
 import SelfIcon from "../../../img/self-icon.jpg"
-import {Icon, Dropdown, Menu, Button, DatePicker, Input, Modal, message, Checkbox} from "antd";
-import {getDiskPower, getTimePeriod, isEmpty, todayFormat} from "../../common/Common";
+import {Icon, Dropdown, Menu, Button, DatePicker, Input, Radio, message, Modal} from "antd";
+import {getDiskPower} from "../../common/Common";
 import moment from "moment";
 import YTAIcon from "../../../img/ytacoin.png"
 import BHDIcon from "../../../img/bhd_coin.png"
 import FILIcon from "../../../img/ico_filecoin.png"
-import {chooseUserEntrust,backCommon,virtualMenuTitle} from "../../common/model/ServerModel";
+import {
+    chooseUserEntrust,
+} from "../../common/model/ServerModel";
 
 import TrustUserOperation from "./TrustUserOperation"
 import MyDevice from "./MyDevice"
@@ -16,6 +18,16 @@ import MyEntrust from "./MyEntrust"
 import EntrustToMe from "./EntrustToMe"
 import MyEntrustDevice from "./MyEntrustDevice"
 import EntrustToMeDevice from "./EntrustToMeDevice"
+import NodeRent from "./NodeRent"
+import VirtualNodeTop from "./VirtualNodeTop"
+import MyNode from "./MyNode"
+import ApplyList from "./ApplyList"
+import NodeProfit from "./NodeProfit"
+import StaffManage from "./StaffManage"
+import DistributeRole from "./DistributeRole"
+
+import Axios from "axios";
+import qs from "qs";
 
 
 export default class app extends React.Component {
@@ -105,337 +117,6 @@ export default class app extends React.Component {
             </div>
         );
     }
-}
-
-//员工管理
-class StaffManage extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    render() {
-        return(
-            <React.Fragment>
-                <div className={"staff-manage-banner banner"}>
-                    <h5>员工管理</h5>
-                    <div className={"but1"}>
-                        <p>角色设置</p>
-                    </div>
-                    <div className={"but2"}>
-                        <p>添加管理员</p>
-                    </div>
-                </div>
-                <div className={"border"} style={{marginTop:'12px'}}>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-                    <div className={"staff-manage-list list"}>
-                        <img src={SelfIcon} />
-                        <p>刚则·克里斯</p>
-                        <div className={"but1"}></div>
-                        <div className={"but2"}></div>
-                    </div>
-
-                </div>
-            </React.Fragment>
-        )
-    }
-}
-
-//虚拟节点公共头
-class VirtualNodeTop extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    changeMenu(title){
-        virtualMenuTitle(title)
-    }
-    render() {
-        const open = this.state[OPERATION.SERVER_INFO][ACTION.VIRTUAL_NODE][ACTION.CURRENT_OPEN];
-        return(
-            <div className={"virtual-node-banner banner"}>
-                <h5>虚拟节点</h5>
-                {open === OPERATION.MY_NODE?
-                    <div className={"but1 on"} onClick={this.changeMenu.bind(this,OPERATION.MY_NODE)}>
-                        <p>我的节点</p>
-                    </div>:<div className={"but1"} onClick={this.changeMenu.bind(this,OPERATION.MY_NODE)}>
-                        <p>我的节点</p>
-                    </div>
-                }
-                {open === OPERATION.APPLY_LIST?
-                    <div className={"but2 on"} onClick={this.changeMenu.bind(this,OPERATION.APPLY_LIST)}>
-                        <p>申请列表</p>
-                    </div>: <div className={"but2"} onClick={this.changeMenu.bind(this,OPERATION.APPLY_LIST)}>
-                         <p>申请列表</p>
-                    </div>
-                }
-                {open === OPERATION.NODE_BUY?
-                    <div className={"but3 on"} onClick={this.changeMenu.bind(this,OPERATION.NODE_BUY)}>
-                        <p>节点租赁</p>
-                    </div>: <div className={"but3"} onClick={this.changeMenu.bind(this,OPERATION.NODE_BUY)}>
-                        <p>节点租赁</p>
-                    </div>
-                }
-            </div>
-        )
-    }
-}
-
-//我的节点
-class MyNode extends  React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    render() {
-        return(
-            <div className={"border"}>
-                <div className={"virtual-node-title topic"}>
-                    <p className={"tip1"}>矿场名</p>
-                    <p className={"tip2"}>币种</p>
-                    <p className={"tip3"}>收益</p>
-                    <p className={"tip4"}>节点数</p>
-                    <p className={"tip5"}>状态</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>100YTA</p>
-                    <p className={"text4"}>60个</p>
-                    <p className={"text5"}>挖矿中，还剩28天</p>
-                </div>
-            </div>
-        )
-    }
-}
-
-//申请列表
-class ApplyList extends  React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    render() {
-        return(
-            <div className={"border"}>
-                <div className={"virtual-node-title topic"}>
-                    <p className={"tip1"}>矿场名</p>
-                    <p className={"tip2"}>币种</p>
-                    <p className={"tip3"}>价格</p>
-                    <p className={"tip4"}>节点数</p>
-                    <p className={"tip5"}>状态</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#5786D2"}} className={"text5"}>申请租赁中（15个）</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#CC0000"}}  className={"text5"}>申请租赁中（15个）</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#00B362"}}  className={"text5"}>申请租赁中（15个）</p>
-                </div>
-            </div>
-        )
-    }
-}
-
-//节点租赁
-class NodeRent extends  React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    render() {
-        return(
-            <div className={"border"}>
-                <div className={"virtual-node-title topic"}>
-                    <p className={"tip1"}>矿场名</p>
-                    <p className={"tip2"}>币种</p>
-                    <p className={"tip3"}>价格</p>
-                    <p className={"tip4"}>节点数</p>
-                    <p className={"tip5"}>状态</p>
-                </div>
-                <div className={"virtual-node-list list"}>
-                    <p className={"text1"}>用户AA矿场</p>
-                    <p className={"text2"}>YTA</p>
-                    <p className={"text3"}>CNY/个/月</p>
-                    <p className={"text4"}>60个</p>
-                    <p style={{color:"#5786D2"}} className={"text5"}>申请租赁中（15个）</p>
-                    <input type={"button"} value={"租"} />
-                </div>
-
-            </div>
-        )
-    }
-}
-
-//节点收益
-class NodeProfit extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = store.getState();
-        this.storeChange = this.storeChange.bind(this);
-        store.subscribe(this.storeChange);
-    }
-    storeChange(){
-        this.state = store.getState();
-        this.setState(this.state);
-    }
-    componentWillUnmount() {
-        this.setState = (state, callback) => {
-            return
-        }
-    }
-    render() {
-        const dateFormat = 'YYYY-MM-DD';
-        return(
-            <React.Fragment>
-                <div className={"node-income-banner banner"}>
-                    <h5>节点收益</h5>
-                </div>
-                <div className={"border"}>
-                    <div className={"node-income-total"}>
-                        <div className={"icon1"}></div>
-                        <p className={"tip1"}>总收益：1000 YTA</p>
-                        <div className={"icon2"}></div>
-                        <p className={"tip2"}>选择某天的收益</p>
-                        <div className={"date"}>
-                            <DatePicker defaultValue={moment(todayFormat(),dateFormat)} placeholder="请选择日期"  />
-                            <p className={"date-show"}>2018-12-12</p>
-                        </div>
-                        <button><Icon type="search" />&nbsp;&nbsp;查收益</button>
-                    </div>
-                    <div className={"node-income-list-title topic"}>
-                        <p className={"tip1"}>收入</p>
-                        <p className={"tip2"}>地址</p>
-                        <p className={"tip3"}>时间</p>
-                        <p className={"tip4"}>收益</p>
-                    </div>
-                    <div className={"node-income-list-detail list"}>
-                        <p className={"text1"}>1312312</p>
-                        <p className={"text2"}>北京</p>
-                        <p className={"text3"}>2019-10-12</p>
-                        <p className={"text4"}>1.0000</p>
-                    </div>
-                    <div className={"node-income-list-detail list"}>
-                        <p className={"text1"}>1312312</p>
-                        <p className={"text2"}>北京</p>
-                        <p className={"text3"}>2019-10-12</p>
-                        <p className={"text4"}>1.0000</p>
-                    </div>
-                    <div className={"node-income-list-detail list"}>
-                        <p className={"text1"}>1312312</p>
-                        <p className={"text2"}>北京</p>
-                        <p className={"text3"}>2019-10-12</p>
-                        <p className={"text4"}>1.0000</p>
-                    </div>
-                    <div className={"node-income-list-detail list"}>
-                        <p className={"text1"}>1312312</p>
-                        <p className={"text2"}>北京</p>
-                        <p className={"text3"}>2019-10-12</p>
-                        <p className={"text4"}>1.0000</p>
-                    </div>
-
-                </div>
-            </React.Fragment>
-        )
-    }
-
 }
 
 //监控报警
@@ -742,7 +423,7 @@ class Commission extends React.Component{
         return(
             <React.Fragment>
                 <div className={"commission-banner banner"}>
-                    `                           <h5>抽成设置</h5>
+                    <h5>抽成设置</h5>
                 </div>
                 <div className={"border"} style={{marginTop:"10px"}}>
                     <div className={"commission-list list"}>

@@ -34,7 +34,6 @@ export default class EntrustToMe extends React.Component{
                 'token': this.state[OPERATION.USER_INFO][ACTION.ADMIN_TOKEN],
             })
         ).then(function(data){
-            console.log(data)
             if(data.data.code === 0){
                 _this.info = data.data.data;
                 _this.setState(_this);

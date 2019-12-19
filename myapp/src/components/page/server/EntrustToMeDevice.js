@@ -43,7 +43,6 @@ export default class EntrustToMeDevice extends React.Component{
                 'page_size': 10
             })
         ).then(function(data){
-            console.log(data)
             if(data.data.code === 0){
                 _this.info = data.data.data;
                 _this.setState(_this);
@@ -53,7 +52,7 @@ export default class EntrustToMeDevice extends React.Component{
     render() {
         const listItems = (this.info.data)?Object.keys(this.info.data).map((key)=> {
             return(
-                <div className={"my-entrust-device-list list"}>
+                <div key={key} className={"my-entrust-device-list list"}>
                     {this.info['data'][key]['is_online'] === 0?
                         <div className={"off"}></div>:
                         <div className={"on"}></div>

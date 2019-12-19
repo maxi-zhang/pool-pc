@@ -26,8 +26,6 @@ import IncomeDetail from "./IncomeDetail"
 
 import DeviceIndex from "../device/"
 
-
-
 export default class app extends React.Component {
     constructor(props){
         super(props);

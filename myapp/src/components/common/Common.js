@@ -153,7 +153,6 @@ let todayFormat = (link = "-") =>{
 }
 
 // 返回今年3，去年4，上月2，本月1的时间起始时间
-
 let getTimePeriod = (i) =>{
     let myDate = new Date();
     let c_year = myDate.getFullYear();

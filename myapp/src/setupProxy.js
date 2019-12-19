@@ -33,5 +33,10 @@ module.exports = function(app) {
         target: "https://testpool.arsyun.com/",
         changeOrigin: true,
     }));
+    app.use(proxy('/tenant/', {
+        target: "https://testpool.arsyun.com/",
+        changeOrigin: true,
+    }));
+
 
 };
